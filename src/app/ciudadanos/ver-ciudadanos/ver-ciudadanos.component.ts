@@ -1,37 +1,47 @@
 
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit  } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { Observable } from 'rxjs';
 import { ApiService } from '../../core/servicios/service';
+import { CommonModule } from '@angular/common';
+import { Ciudadano } from '../../core/modelos/ciudadano.model';
+import { CIUDADANO } from '../../environments/api-costant';
 
 @Component({
   selector: 'app-ver-ciudadanos',
   standalone: true,
-  imports: [RouterOutlet],
+  imports: [RouterOutlet,CommonModule],
   templateUrl: './ver-ciudadanos.component.html',
   styleUrl: './ver-ciudadanos.component.css'
 })
 export class VerCiudadanosComponent {
 
-  private apiUrl = 'http://localhost:5000/consultar-ciudadanos'; // URL del backend
+  ciudadanos : Ciudadano[]=[];
   
   constructor(private apiService: ApiService) { }
 
   ngOnInit(): void {
-    console.log('Componente inicializado');
+    this.consultar_ciudadanos();
+  }
+
+
+
+
+  consultar_ciudadanos(cedula?: string){
     const body = {
-       id: 1, 
-       title: "Holaaa" 
-    }
-    // Consultar ciudadanos
-    this.apiService.post('consultar-ciudadanos',body).subscribe(
-      response => {
-        console.log('Respuesta del backend:', response);
-      },
-      error => {
-        console.error('Error al consultar ciudadanos:', error);
-      });
+        cedula:"asdas"
     }
 
+    // Consultar ciudadanos
+    this.apiService.post(CIUDADANO.CONSULTAR_CIUDADANOS,body).subscribe({
+      next: (respuesta) => {
+        
+        this.ciudadanos = respuesta;
+      },
+      error: (error) => {
+        // Manejar cualquier error que ocurra durante la solicitud
+        console.error("Se produjo un error: " + error);
+      },
+    });
+
+  }
 }
