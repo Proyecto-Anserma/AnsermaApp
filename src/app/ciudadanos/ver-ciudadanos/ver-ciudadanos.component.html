@@ -1,12 +1,57 @@
-<h1>Ver Ciudadanos</h1>
+<div class="container">
+  <div class="row">
+    <div class="col-1">.col-9</div>
+    <div class="col-10">
+      <br>
+      <br>
+      <br>
+      <H1>Ciudadanos</H1>
+      <br>
+      <br>
+      <div class="col-auto">
+        <label for="inputPassword6" class="col-form-label">Cedula</label>
+      </div>
+      <div class="row g-3 align-items-center">
+        
+        <div class="col-auto">
+          <input type="number" id="inputPassword6" class="form-control">
+        </div>
+        <div class="col-auto">
+          <button type="button" class="btn btn-success me-2">Buscar</button>
+          <button type="button" class="btn btn-secondary">Limpiar</button>
+      </div>
+      
+      </div>
+      <hr>
 
-<hr>
 
-<div class="mb-3">
-    <label for="exampleFormControlInput1" class="form-label">Email address</label>
-    <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">Nombre</th>
+            <th scope="col">Apellido</th>
+            <th scope="col">Telefono</th>
+            <th scope="col">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let ciudadano of ciudadanos">
+            <td>{{ ciudadano.nombre_ciudadano }}</td>
+            <td>{{ ciudadano.apellido_ciudadano }}</td>
+            <td>{{ ciudadano.telefono_ciudadano }}</td> 
+            <td>
+              <button class="btn btn-link p-0 text-reset" title="Editar" >
+                  <i class="bi bi-pencil-fill me-4"></i>
+              </button>
+              <button class="btn btn-link p-0 text-reset" title="Eliminar" >
+                  <i class="bi bi-trash-fill"></i>
+              </button>
+          </td>
+          
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="col-1">COL</div>
   </div>
-  <div class="mb-3">
-    <label for="exampleFormControlTextarea1" class="form-label">Example textarea</label>
-    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-  </div>
+</div>
