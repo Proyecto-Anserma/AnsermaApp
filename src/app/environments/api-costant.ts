@@ -7,6 +7,10 @@ export const CIUDADANO = {
     EDITAR_CIUDAD: PORT+"/editar-ciudadano"
 };
 
+export const SOLICITUD = {
+    CONSULTAR_SOLICITUDES: PORT+"/consultar-solicitudes"
+};
+
 export const USUARIO = {
     CONSULTAR_USUARIOS: PORT+"/consultar-usuarios"
 };
