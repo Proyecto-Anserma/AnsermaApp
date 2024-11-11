@@ -5,6 +5,8 @@ import { ApiService } from '../../core/servicios/service';
 import { CommonModule } from '@angular/common';
 import { Ciudadano } from '../../core/modelos/ciudadano.model';
 import { CIUDADANO } from '../../environments/api-costant';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { EditarCiudadanoComponent } from '../editar-ciudadano/editar-ciudadano.component';
 
 @Component({
   selector: 'app-ver-ciudadanos',
@@ -17,7 +19,11 @@ export class VerCiudadanosComponent {
 
   ciudadanos : Ciudadano[]=[];
   
-  constructor(private apiService: ApiService) { }
+  constructor(
+    private apiService: ApiService,
+    private modalService: NgbModal
+
+  ) { }
 
   ngOnInit(): void {
     this.consultar_ciudadanos();
@@ -43,5 +49,11 @@ export class VerCiudadanosComponent {
       },
     });
 
+  }
+
+
+  abrirModalEditar(ciudadano: Ciudadano) {
+    const modalRef = this.modalService.open(EditarCiudadanoComponent);
+    modalRef.componentInstance.ciudadano = ciudadano;
   }
 }
