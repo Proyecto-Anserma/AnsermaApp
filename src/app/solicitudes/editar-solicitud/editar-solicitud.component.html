@@ -1,0 +1,52 @@
+<div class="modal-header">
+    <h5 class="modal-title">Editar Solicitud</h5>
+    <button type="button" class="close" aria-label="Close" (click)="cerrarModal()" style="border: none; background: transparent; font-size: 1.5rem;">
+      <span aria-hidden="true" style="font-weight: bold;">&times;</span>
+    </button>
+  </div>
+  
+  <div class="modal-body">
+    <form #solicitudForm="ngForm">
+      <div class="form-group mb-4">
+        <label for="descripcion">Descripción</label>
+        <input
+          type="text"
+          id="descripcion"
+          class="form-control"
+          [(ngModel)]="solicitud.descripcion_solicitud"
+          name="descripcion_solicitud"
+          required
+        />
+      </div>
+  
+      <div class="form-group mb-4">
+        <label for="fecha_creacion">Fecha creación</label>
+        <input
+          type="date"
+          id="fecha_creacion"
+          class="form-control"
+          [(ngModel)]="solicitud.fecha_creacion_solicitud"
+          name="fecha_creacion_solicitud"
+          required
+        />
+      </div>
+  
+      <div class="form-group mb-4">
+        <label for="foto_solicitud">Foto solicitud</label>
+        <input
+          type="text"
+          id="foto_solicitud"
+          class="form-control"
+          [(ngModel)]="solicitud.foto_solicitud"
+          name="foto_solicitud"
+          required
+        />
+      </div>
+    </form>
+  </div>
+  
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="cerrarModal()">Cancelar</button>
+    <button type="button" class="btn btn-primary" (click)="guardar()">Guardar</button>
+  </div>
+  

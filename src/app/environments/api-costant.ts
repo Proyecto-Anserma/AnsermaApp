@@ -8,7 +8,8 @@ export const CIUDADANO = {
 };
 
 export const SOLICITUD = {
-    CONSULTAR_SOLICITUDES: PORT+"/consultar-solicitudes"
+    CONSULTAR_SOLICITUDES: PORT+"/consultar-solicitudes",
+    EDITAR_SOLICITUD: PORT+"/editar-solicitud"
 };
 
 export const USUARIO = {
