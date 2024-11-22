@@ -1,15 +1,13 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { GenerarMenuComponent } from './generar-menu/generar-menu.component';
-
-
+import { GenerarMenuComponent } from './generar-menu/generar-menu.component';  // Importa el componente standalone
 
 @NgModule({
-  declarations: [GenerarMenuComponent],
+  declarations: [],
   imports: [
-    CommonModule
+    CommonModule,
+    GenerarMenuComponent,  // Ahora se importa directamente, no se declara
   ],
-  exports:[GenerarMenuComponent]
-
+  exports: [GenerarMenuComponent],
 })
 export class MenuModule { }

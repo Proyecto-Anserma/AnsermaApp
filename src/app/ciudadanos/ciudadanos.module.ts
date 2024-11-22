@@ -10,9 +10,9 @@ import { FormsModule } from '@angular/forms';
   declarations: [],
   imports: [
     CommonModule,
-    HttpClient,
     NgbModalModule,
     FormsModule
-  ]
+  ],
+  providers: []
 })
-export class CiudadanosModule { }
+export class CiudadanosModule {}

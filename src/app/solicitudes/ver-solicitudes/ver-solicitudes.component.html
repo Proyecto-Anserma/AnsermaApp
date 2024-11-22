@@ -1,56 +1,60 @@
 <div class="container">
-    <div class="row">
-      <div class="col-1">.col-9</div>
-      <div class="col-10">
-        <br>
-        <br>
-        <br>
-        <H1>Solicitudes</H1>
-        <br>
-        <br>
+  <div class="row">
+    <div class="col-1">.col-1</div>
+    <div class="col-10">
+      <br><br><br>
+      <h1>Filtrar Solicitudes</h1>
+      <br><br>
+
+      <div class="row g-3 align-items-center d-flex justify-content-between">
         <div class="col-auto">
-          <label for="inputPassword6" class="col-form-label">Cedula</label>
+          <label for="descripcionFiltro" class="col-form-label">Descripción</label>
+          <input type="text" [(ngModel)]="descripcionFiltro" name="descripcionFiltro" id="descripcionFiltro" class="form-control">
         </div>
-        <div class="row g-3 align-items-center">
-          
-          <div class="col-auto">
-            <input type="number" id="inputPassword6" class="form-control">
-          </div>
-          <div class="col-auto">
-            <button type="button" class="btn btn-success me-2">Buscar</button>
-            <button type="button" class="btn btn-secondary">Limpiar</button>
+        <div class="col-auto">
+          <label for="cedulaFiltro" class="col-form-label">Cédula</label>
+          <input type="text" [(ngModel)]="cedulaFiltro" name="cedulaFiltro" id="cedulaFiltro" class="form-control">
         </div>
-        
+
+        <div class="col-auto">
+          <button type="submit" class="btn btn-success" (click)="consultarPorDato()" [disabled]="loading">Buscar</button>
         </div>
-        <hr>
-  
-  
+      </div>
+
+      <div *ngIf="loading" class="mt-3">Cargando...</div>
+      <div *ngIf="!loading && solicitudes.length > 0" class="mt-3">
         <table class="table table-striped">
           <thead>
             <tr>
               <th scope="col">Descripción</th>
-              <th scope="col">Fecha creación</th>
-              <th scope="col">Tipo solicitud</th>
+              <th scope="col">Fecha de Creación</th>
+              <th scope="col">Tipo de Solicitud</th>
+              <th scope="col">Acciones</th>
             </tr>
           </thead>
           <tbody>
             <tr *ngFor="let solicitud of solicitudes">
               <td>{{ solicitud.descripcion_solicitud }}</td>
-              <td>{{ solicitud.fecha_creacion_solicitud }}</td>
-              <td>{{ solicitud.tipo_solicitud }}</td> 
+              <td>{{ solicitud.fecha_creacion_solicitud | date:'dd-MM-yyyy' }}</td>
+              <td>{{ solicitud.id_tipo_solicitud }}</td>
               <td>
-                <button class="btn btn-link p-0 text-reset" title="Editar" >
+                <button class="btn btn-link p-0 text-reset" title="Editar" 
+                        (click)="abrirModalEditar(solicitud)">
                     <i class="bi bi-pencil-fill me-4"></i>
                 </button>
-                <button class="btn btn-link p-0 text-reset" title="Eliminar" >
+                <button class="btn btn-link p-0 text-reset" title="Eliminar">
                     <i class="bi bi-trash-fill"></i>
                 </button>
-            </td>
-            
+              </td>
             </tr>
           </tbody>
         </table>
       </div>
-      <div class="col-1">COL</div>
+      <!-- Si no hay solicitudes -->
+      <div *ngIf="!loading && solicitudes.length === 0" class="mt-3">
+        <p>No se encontraron solicitudes.</p>
+      </div>
     </div>
+    <div class="col-1">.col-1</div>
   </div>
+</div>

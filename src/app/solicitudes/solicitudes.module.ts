@@ -1,19 +1,16 @@
-import { Solicitud } from './../core/modelos/solicitud.model';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
-import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
-import { FormsModule } from '@angular/forms';
-
-
+import { FormsModule } from '@angular/forms';  // Importar FormsModule
+import { RouterModule } from '@angular/router';
+import { VerSolicitudesComponent } from './ver-solicitudes/ver-solicitudes.component';
+import { SOLICITUDES_RUTAS } from './solicitudes.module.routes';
 
 @NgModule({
-  declarations: [],
   imports: [
     CommonModule,
-    HttpClient,
-    NgbModalModule,
-    FormsModule
-  ]
+    FormsModule, 
+    RouterModule.forChild(SOLICITUDES_RUTAS),
+    VerSolicitudesComponent, 
+  ],
 })
-export class SolicitudesModule { }
+export class SolicitudesModule {}

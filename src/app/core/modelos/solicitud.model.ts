@@ -3,18 +3,18 @@ export class Solicitud {
   fecha_creacion_solicitud: Date;
   foto_solicitud: string;
   geolocalizacion: string;
-  tipo_solicitud: Int16Array;
-  ubicacion_solicitud: Int16Array;
-  ciudadano_solicitud: Int16Array;
+  tipo_solicitud: number;
+  ubicacion_solicitud: number;
+  ciudadano_solicitud: string;
 
   constructor(
       descripcion_solicitud: string,
       fecha_creacion_solicitud: Date,
       foto_solicitud: string,
       geolocalizacion: string,
-      tipo_solicitud: Int16Array,
-      ubicacion_solicitud: Int16Array,
-      ciudadano_solicitud: Int16Array
+      tipo_solicitud: number,
+      ubicacion_solicitud: number,
+      ciudadano_solicitud: string
   ) {
     this.descripcion_solicitud = descripcion_solicitud;
     this.fecha_creacion_solicitud = fecha_creacion_solicitud;
@@ -25,3 +25,47 @@ export class Solicitud {
     this.ciudadano_solicitud = ciudadano_solicitud;
   }
 }
+
+
+export class SolicitudFiltrar {
+  descripcion_solicitud?: string; 
+  id_ciudadano_solicitud?: string; 
+
+  constructor(
+    descripcion_solicitud?: string,
+    id_ciudadano_solicitud?: string
+  ) {
+    this.descripcion_solicitud = descripcion_solicitud;
+    this.id_ciudadano_solicitud = id_ciudadano_solicitud;
+  }
+}
+
+
+export class SolicitudResponse {
+  descripcion_solicitud: string;
+  fecha_creacion_solicitud: Date;
+  foto_solicitud?: string;
+  geolocalizacion: string;
+  id_tipo_solicitud: number;
+  id_ubicacion_solicitud: number;
+  id_ciudadano_solicitud: string;
+
+  constructor(
+    descripcion_solicitud: string,
+    fecha_creacion_solicitud: Date,
+    geolocalizacion: string,
+    id_tipo_solicitud: number,
+    id_ubicacion_solicitud: number,
+    id_ciudadano_solicitud: string,
+    foto_solicitud?: string
+  ) {
+    this.descripcion_solicitud = descripcion_solicitud;
+    this.fecha_creacion_solicitud = fecha_creacion_solicitud;
+    this.geolocalizacion = geolocalizacion;
+    this.id_tipo_solicitud = id_tipo_solicitud;
+    this.id_ubicacion_solicitud = id_ubicacion_solicitud;
+    this.id_ciudadano_solicitud = id_ciudadano_solicitud;
+    this.foto_solicitud = foto_solicitud;
+  }
+}
+
