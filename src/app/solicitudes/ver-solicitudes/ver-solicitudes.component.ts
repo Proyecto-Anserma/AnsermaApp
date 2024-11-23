@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../../core/servicios/service';
 import { SOLICITUD } from '../../environments/api-costant';
-import { SolicitudResponse, SolicitudFiltrar } from '../../core/modelos/solicitud.model'; // Importa ambas clases
+import { SolicitudResponse, SolicitudFiltrar } from '../../core/modelos/solicitud.model'; 
 import { FormsModule } from '@angular/forms'; 
 import { CommonModule } from '@angular/common';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -15,13 +15,12 @@ import { EditarSolicitudComponent } from '../editar-solicitud/editar-solicitud.c
   styleUrls: ['./ver-solicitudes.component.css']
 })
 export class VerSolicitudesComponent implements OnInit {
-  [x: string]: any;
-  solicitudes: SolicitudResponse[] = []; // Tipo: SolicitudResponse[]
+  solicitudes: SolicitudResponse[] = []; 
   descripcionFiltro: string = '';
   cedulaFiltro: string = '';
   loading: boolean = false;
 
-  constructor(private apiService: ApiService) {}
+  constructor(private apiService: ApiService, private modalService: NgbModal) {}
 
   ngOnInit(): void {
     this.cargarSolicitudes();
@@ -56,7 +55,7 @@ export class VerSolicitudesComponent implements OnInit {
 
     this.loading = true;
     this.apiService.post(SOLICITUD.FILTRAR_SOLICITUDES, filtro).subscribe({
-      next: (respuesta: SolicitudResponse[]) => { // Tipo: SolicitudResponse[]
+      next: (respuesta: SolicitudResponse[]) => { 
         this.solicitudes = respuesta;
         this.loading = false;
       },
@@ -67,8 +66,8 @@ export class VerSolicitudesComponent implements OnInit {
     });
   }
 
-  abrirModalEditar(ciudadano: SolicitudFiltrar) {
-    const modalRef = this['modalService'].open(EditarSolicitudComponent);
-    modalRef.componentInstance.ciudadano = ciudadano;
+  abrirModalEditar(solicitud: SolicitudResponse) {
+    const modalRef = this.modalService.open(EditarSolicitudComponent);
+    modalRef.componentInstance.solicitud = solicitud; 
   }
 }
