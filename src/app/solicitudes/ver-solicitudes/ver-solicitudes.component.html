@@ -17,7 +17,13 @@
         </div>
         
         <div class="col-auto">
-          <button type="submit" class="btn btn-success" (click)="consultarPorDato()" [disabled]="loading">Filtrar</button>
+          <button type="submit" class="btn btn-success" (click)="consultarPorDato()" [disabled]="loading">Buscar</button>
+        </div>  
+        <div class="col-auto">
+          <button type="button" class="btn btn-secondary" (click)="limpiarFiltros()">Limpiar</button>
+        </div>
+        <div class="col-auto">
+          <button type="button" class="btn btn-primary" (click)="limpiarFiltros()">Crear Solicitud</button>
         </div>
       </div>
       <div *ngIf="loading" class="mt-3">Cargando...</div>
@@ -36,17 +42,21 @@
             <tr *ngFor="let solicitud of solicitudes">
               <td>{{ solicitud.descripcion_solicitud }}</td>
               <td>{{ solicitud.id_ciudadano_solicitud }}</td>
-              <td>{{ solicitud.fecha_creacion_solicitud | date: 'dd-MM-yyyy' }}</td>
+              <td>{{ solicitud.fecha_creacion_solicitud | date: 'yyyy-MM-dd' }}</td>
               <td>{{ solicitud.id_tipo_solicitud }}</td>
-              <td>
+              <td class="d-flex justify-content-evenly">
+                <button class="btn btn-link p-0 text-reset" title="Ver detalles"
+                        (click)="abrirModalDetalles(solicitud)">
+                  <i class="bi bi-eye-fill"></i>
+                </button>
                 <button class="btn btn-link p-0 text-reset" title="Editar" 
                         (click)="abrirModalEditar(solicitud)">
-                  <i class="bi bi-pencil-fill me-4"></i>
+                  <i class="bi bi-pencil-fill"></i>
                 </button>
-                <button class="btn btn-link p-0 text-reset" title="Eliminar" >
+                <button class="btn btn-link p-0 text-reset" title="Eliminar">
                   <i class="bi bi-trash-fill"></i>
                 </button>
-              </td>
+              </td>              
             </tr>
           </tbody>
         </table>

@@ -6,6 +6,7 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { EditarSolicitudComponent } from '../editar-solicitud/editar-solicitud.component';
+import { DetallesSolicitudComponent } from '../detalles-solicitud/detalles-solicitud.component';
 
 @Component({
   selector: 'app-ver-solicitudes',
@@ -28,12 +29,10 @@ export class VerSolicitudesComponent implements OnInit {
 
   cargarSolicitudes(): void {
     this.loading = true;
-
-    // Instancia de SolicitudFiltrar para la consulta inicial
     const filtro = new SolicitudFiltrar('', ''); 
 
     this.apiService.post(SOLICITUD.FILTRAR_SOLICITUDES, filtro).subscribe({
-      next: (respuesta: SolicitudResponse[]) => { // Tipo: SolicitudResponse[]
+      next: (respuesta: SolicitudResponse[]) => {
         this.solicitudes = respuesta;
         this.loading = false;
       },
@@ -50,7 +49,6 @@ export class VerSolicitudesComponent implements OnInit {
       return;
     }
 
-    // Instancia de SolicitudFiltrar para la consulta por filtros
     const filtro = new SolicitudFiltrar(this.descripcionFiltro, this.cedulaFiltro);
 
     this.loading = true;
@@ -66,8 +64,34 @@ export class VerSolicitudesComponent implements OnInit {
     });
   }
 
+  limpiarFiltros(): void {
+    this.descripcionFiltro = '';
+    this.cedulaFiltro = '';
+    this.cargarSolicitudes();
+  }
+
+  abrirModalDetalles(solicitud: SolicitudResponse) {
+    const modalRef = this.modalService.open(DetallesSolicitudComponent, { size: 'lg' });
+    modalRef.componentInstance.solicitud = { ...solicitud }; // Pasar los datos de la solicitud al modal
+  }  
+
   abrirModalEditar(solicitud: SolicitudResponse) {
     const modalRef = this.modalService.open(EditarSolicitudComponent);
-    modalRef.componentInstance.solicitud = solicitud; 
-  }
+    modalRef.componentInstance.solicitud = { ...solicitud }; 
+  
+    modalRef.result.then(
+      (resultado: SolicitudResponse) => {
+        if (resultado) {
+          // Actualizamos la solicitud en la lista local
+          const index = this.solicitudes.findIndex(s => s.id_solicitud === resultado.id_solicitud);
+          if (index > -1) {
+            this.solicitudes[index] = resultado;
+          }
+        }
+      },
+      () => {
+        console.log('Modal cerrado sin cambios');
+      }
+    );
+  }  
 }
