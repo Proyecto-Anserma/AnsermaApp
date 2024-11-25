@@ -37,7 +37,6 @@ export class VerCiudadanosComponent {
         cedula:"asdas"
     }
 
-    // Consultar ciudadanos
     this.apiService.post(CIUDADANO.CONSULTAR_CIUDADANOS,body).subscribe({
       next: (respuesta) => {
         
@@ -48,7 +47,6 @@ export class VerCiudadanosComponent {
         console.error("Se produjo un error: " + error);
       },
     });
-
   }
 
 

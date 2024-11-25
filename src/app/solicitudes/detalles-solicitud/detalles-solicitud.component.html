@@ -1,0 +1,46 @@
+<div class="modal-header">
+    <h5 class="modal-title">Detalles de la Solicitud</h5>
+    <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.dismiss()"></button>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <!-- Columna 1 -->
+      <div class="col-md-6">
+        <div class="mb-3">
+          <label class="form-label font-weight-bold text-dark"> <strong>Descripción:</strong></label>
+          <p>{{ solicitud.descripcion_solicitud }}</p>
+        </div>
+        <div class="mb-3">
+          <label class="form-label font-weight-bold text-dark"><strong>Cédula:</strong></label>
+          <p>{{ solicitud.id_ciudadano_solicitud }}</p>
+        </div>
+        <div class="mb-3">
+          <label class="form-label font-weight-bold text-dark"><strong>Fecha de Creación:</strong></label>
+          <p>{{ solicitud.fecha_creacion_solicitud | date: 'yyyy-MM-dd' }}</p>
+        </div>
+        <div class="mb-3">
+          <label class="form-label font-weight-bold text-dark"><strong>Tipo de Solicitud:</strong></label>
+          <p>{{ solicitud.id_tipo_solicitud }}</p>
+        </div>
+      </div>
+  
+      <!-- Columna 2 -->
+      <div class="col-md-6">
+        <div class="mb-3">
+          <label class="form-label font-weight-bold text-dark"><strong>Ubicación:</strong></label>
+          <p>{{ solicitud.id_ubicacion_solicitud }}</p>
+        </div>
+        <div class="mb-3">
+          <label class="form-label font-weight-bold text-dark"><strong>Geolocalización:</strong></label>
+          <p>{{ solicitud.geolocalizacion }}</p>
+        </div>
+        <div class="mb-3" *ngIf="solicitud.foto_solicitud">
+          <label class="form-label font-weight-bold text-dark"><strong>Foto:</strong></label><br>
+          <img [src]="solicitud.foto_solicitud" alt="Foto de la solicitud" class="img-fluid" style="max-width: 50%; height: auto; object-fit: contain;">
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="activeModal.dismiss()">Cerrar</button>
+  </div>
