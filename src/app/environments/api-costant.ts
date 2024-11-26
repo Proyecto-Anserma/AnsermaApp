@@ -3,7 +3,7 @@ import { environment } from "./environment";
 const PORT = environment.PORT;
 
 export const CIUDADANO = {
-    CONSULTAR_CIUDADANOS: PORT+"/consultar-ciudadanos",
+    CONSULTAR_CIUDADANOS: PORT+"/ciudadanos/filtrar-ciudadanos/",
     EDITAR_CIUDAD: PORT+"/editar-ciudadano"
 };
 
