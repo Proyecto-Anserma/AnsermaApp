@@ -9,6 +9,10 @@ export const routes: Routes = [
         path: 'solicitudes',
         loadChildren: () => import('./solicitudes/solicitudes.module.routes').then(m => m.SOLICITUDES_RUTAS),
     },
+    {
+        path: 'ayudas',
+        loadChildren: () => import('./ayudas/ayudas.module.route').then(m => m.AYUDAS_RUTAS),
+    },
        
 ];
 
