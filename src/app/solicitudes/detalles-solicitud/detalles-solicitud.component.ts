@@ -4,6 +4,8 @@ import { CommonModule } from '@angular/common';
 import { SolicitudResponse } from '../../core/modelos/solicitud.model';
 import * as mapboxgl from 'mapbox-gl';
 import { environment } from '../../environments/environment';
+import 'mapbox-gl/dist/mapbox-gl.css';
+
 
 @Component({
   selector: 'app-detalles-solicitud',
@@ -34,13 +36,13 @@ export class DetallesSolicitudComponent implements AfterViewInit {
     });
 
     // Agregar un marcador en el punto con un ligero desplazamiento
-    new mapboxgl.Marker({ offset: [0, -10] }) // Desplaza el marcador ligeramente hacia arriba
+    new mapboxgl.Marker({ offset: [0, 0] }) // Desplaza el marcador ligeramente hacia arriba
       .setLngLat(coordinates)
       .addTo(this.map);
 
     // Asegurar que el mapa se centra correctamente con un ajuste adicional
     this.map.on('load', () => {
-      const offset: [number, number] = [-110, 120]; // Asegurar que el tipo sea [number, number]
+      const offset: [number, number] = [0,0]; // Asegurar que el tipo sea [number, number]
       this.map.setCenter(coordinates); // Centra el mapa en las coordenadas
       this.map.panBy(offset); // Ajusta el centro del mapa en píxeles
       this.map.resize(); // Ajusta dimensiones si es necesario

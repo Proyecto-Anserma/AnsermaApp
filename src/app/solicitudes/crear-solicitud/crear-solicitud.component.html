@@ -1,0 +1,69 @@
+<div class="modal-header">
+    <h5 class="modal-title">Crear Nueva Solicitud</h5>
+    <button type="button" class="close" aria-label="Close" (click)="cerrarModal()" style="border: none; background: transparent; font-size: 1.5rem;">
+      <span aria-hidden="true" style="font-weight: bold;">&times;</span>
+    </button>
+  </div>
+  
+  <div class="modal-body">
+    <form #solicitudForm="ngForm">
+      <!-- Descripción -->
+      <div class="form-group mb-4">
+        <label for="descripcion">Descripción de la Solicitud</label>
+        <input
+          type="text"
+          id="descripcion"
+          class="form-control"
+          [(ngModel)]="solicitud.descripcion_solicitud"
+          name="descripcion_solicitud"
+          required
+        />
+      </div>
+  
+      <!-- Fecha -->
+      <div class="form-group mb-4">
+        <label for="fecha">Fecha de Creación</label>
+        <input
+          type="date"
+          id="fecha"
+          class="form-control"
+          [(ngModel)]="solicitud.fecha_creacion_solicitud"
+          name="fecha_creacion_solicitud"
+          required
+        />
+      </div>
+  
+      <!-- Geolocalización -->
+      <div class="form-group mb-4">
+        <label class="form-label font-weight-bold text-dark"><strong>Geolocalización:</strong></label>
+        <div class="map-container" style="width: 60%; height: 130px;">
+          <div id="map" style="width: 100%; height: 100%; border-radius: 10px;"></div>
+        </div>
+      </div>
+  
+      <!-- Foto -->
+      <div class="col-md-6 d-flex flex-column align-items-center mb-3">
+        <label class="form-label">Foto de Solicitud</label>
+        <img
+          [src]="solicitud.foto_solicitud"
+          alt="Foto de solicitud"
+          class="img-fluid mb-2"
+          style="max-height: 200px; border: 1px solid #ccc;"
+        />
+        <input
+          type="file"
+          id="uploadPhoto"
+          class="form-control-file d-none"
+          (change)="subirFoto($event)"
+          accept="image/*"
+        />
+        <button class="btn btn-sm btn-primary" (click)="triggerFileInput()">Subir Foto</button>
+      </div>
+    </form>
+  </div>
+  
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="cerrarModal()">Cancelar</button>
+    <button type="button" class="btn btn-primary" (click)="guardar()">Crear</button>
+  </div>
+  
