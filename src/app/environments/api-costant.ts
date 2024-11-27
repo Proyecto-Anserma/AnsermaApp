@@ -14,6 +14,14 @@ export const SOLICITUD = {
     EDITAR_SOLICITUD: PORT+"/solicitudes/editar-solicitud"
 };
 
+export const AYUDAS = {
+    FILTRAR_AYUDAS: PORT + "/ayudas/filtrar-ayudas/",
+    //CONSULTAR_AYUDAS: PORT + "/ayudas/consultar-ayudas",
+    CREAR_AYUDA: PORT + "/ayudas/crear-ayuda",
+    EDITAR_AYUDA: PORT + "/ayudas/editar-ayuda",
+    ELIMINAR_AYUDA: PORT + "/ayudas/eliminar"
+};  
+
 export const USUARIO = {
     CONSULTAR_USUARIOS: PORT+"/consultar-usuarios"
 };
