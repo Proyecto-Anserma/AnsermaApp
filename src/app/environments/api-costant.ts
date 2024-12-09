@@ -4,22 +4,21 @@ const PORT = environment.PORT;
 
 export const CIUDADANO = {
     CONSULTAR_CIUDADANOS: PORT+"/ciudadanos/filtrar-ciudadanos/",
-    EDITAR_CIUDAD: PORT+"/editar-ciudadano"
+    EDITAR_CIUDAD: PORT+"/ciudadanos/editar-ciudadano"
 };
 
 export const SOLICITUD = {
-    //CONSULTAR_SOLICITUDES: PORT + "/solicitudes/consultar-solicitudes/",
     FILTRAR_SOLICITUDES: PORT + "/solicitudes/filtrar-solicitudes/", 
-    CONSULTAR_SOLICITUDES_USUARIO: PORT + "/solicitudes/consultar-por-usuario/",
-    EDITAR_SOLICITUD: PORT+"/solicitudes/editar-solicitud"
+    CREAR_SOLICITUD: PORT+"/solicitudes/crear-solicitud",
+    EDITAR_SOLICITUD: PORT+"/solicitudes/editar-solicitud",
+    ELIMINAR_SOLICITUD: PORT + "/solicitudes/eliminar-solicitud"
 };
 
 export const AYUDAS = {
     FILTRAR_AYUDAS: PORT + "/ayudas/filtrar-ayudas/",
-    //CONSULTAR_AYUDAS: PORT + "/ayudas/consultar-ayudas",
     CREAR_AYUDA: PORT + "/ayudas/crear-ayuda",
     EDITAR_AYUDA: PORT + "/ayudas/editar-ayuda",
-    ELIMINAR_AYUDA: PORT + "/ayudas/eliminar"
+    ELIMINAR_AYUDA: PORT + "/ayudas/eliminar-ayuda"
 };  
 
 export const USUARIO = {

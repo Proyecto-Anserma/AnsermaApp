@@ -6,28 +6,40 @@
     </div>
     <div class="modal-body">
       <div class="row">
-        <div class="col-12 mb-3">
+        <!-- Descripción ocupando dos columnas -->
+        <div class="col-md-12 mb-3">
           <label class="form-label">{{ obtenerTitulo('descripcion_solicitud') }}</label>
-          <input [(ngModel)]="solicitud['descripcion_solicitud']" class="form-control" />
+          <textarea [(ngModel)]="solicitud['descripcion_solicitud']" class="form-control" rows="2"></textarea>
         </div>
       </div>
       <div class="row">
+        <!-- Otras solicitudes en dos columnas -->
         <div class="col-md-6" *ngFor="let key of objectKeys(solicitud)">
-          <div *ngIf="key !== 'id_solicitud' && key !== 'descripcion_solicitud' && key !== 'foto_solicitud'">
+          <div *ngIf="key !== 'id_solicitud' && key !== 'descripcion_solicitud' && key !== 'geolocalizacion' && key !== 'foto_solicitud'">
             <label class="form-label">{{ obtenerTitulo(key) }}</label>
             <input [(ngModel)]="solicitud[key]" class="form-control mb-3" />
           </div>
         </div>
+        <!-- Geolocalización -->
+        <div class="col-md-6 d-flex flex-column align-items-center mb-3">
+          <label class="form-label">{{ obtenerTitulo('geolocalizacion') }}</label>
+          <div class="map-container" style="width: 100%; height: 200px;">
+            <div id="editMap" style="width: 100%; height: 100%; border-radius: 10px;"></div>
+          </div>
+          <p class="text-muted mt-1" style="font-size: 11px;">Haz clic en el mapa para seleccionar una nueva geolocalización.</p>
+        </div>
+        <!-- Foto -->
         <div class="col-md-6 d-flex flex-column align-items-center mb-3">
           <label class="form-label">{{ obtenerTitulo('foto_solicitud') }}</label>
-          <img [src]="solicitud['foto_solicitud']" alt="Foto de solicitud" class="img-fluid mb-2" style="max-height: 200px; border: 1px solid #ccc;" />
+          <div class="map-container" style="width: 100%; height: 200px;">
+            <img [src]="solicitud['foto_solicitud']" alt="Foto de solicitud" class="img-fluid mb-2" style="max-width: 100%; height: 100%; border-radius: 10px;" />
+          </div>
           <input type="file" id="uploadPhoto" class="form-control-file d-none" (change)="subirFoto($event)" accept="image/*">
           <button class="btn btn-sm btn-primary" (click)="triggerFileInput()">Subir Foto</button>
         </div>
       </div>
     </div>
     <div class="modal-footer">
-      <!-- Botón de cerrar -->
       <button type="button" class="btn btn-secondary" (click)="cerrarModal()">Cerrar</button>
       <button type="button" class="btn btn-primary" (click)="guardar()">Guardar Cambios</button>
     </div>

@@ -7,6 +7,8 @@ import { CommonModule } from '@angular/common';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { EditarSolicitudComponent } from '../editar-solicitud/editar-solicitud.component';
 import { DetallesSolicitudComponent } from '../detalles-solicitud/detalles-solicitud.component';
+import { CrearSolicitudComponent } from '../crear-solicitud/crear-solicitud.component';
+import { EliminarSolicitudComponent } from '../eliminar-solicitud/eliminar-solicitud.component';
 
 @Component({
   selector: 'app-ver-solicitudes',
@@ -94,4 +96,58 @@ export class VerSolicitudesComponent implements OnInit {
       }
     );
   }  
+
+  abrirModalCrear(): void {
+    const modalRef = this.modalService.open(CrearSolicitudComponent);
+
+    modalRef.result.then(
+      (nuevaSolicitud: SolicitudResponse) => {
+        if (nuevaSolicitud) {
+          const body = {
+            descripcion_solicitud: nuevaSolicitud.descripcion_solicitud,
+            id_ciudadano_solicitud: nuevaSolicitud.id_ciudadano_solicitud,
+            fecha_creacion_solicitud: nuevaSolicitud.fecha_creacion_solicitud,
+            id_tipo_solicitud: nuevaSolicitud.id_tipo_solicitud
+          };
+
+          this.apiService.post(SOLICITUD.CREAR_SOLICITUD, body).subscribe({
+            next: (respuesta: SolicitudResponse) => {
+              this.solicitudes.push(respuesta);
+              console.log('Solicitud creada exitosamente');
+            },
+            error: (error) => {
+              console.error('Error al crear la solicitud:', error);
+            }
+          });
+        }
+      },
+      () => {
+        console.log('Modal de creación cerrado');
+      }
+    );
+  }
+
+  abrirModalEliminar(solicitud: SolicitudResponse): void {
+    const modalRef = this.modalService.open(EliminarSolicitudComponent);
+    modalRef.componentInstance.solicitud = solicitud;
+
+    modalRef.result.then(
+      (solicitudAEliminar: SolicitudResponse) => {
+        if (solicitudAEliminar) {
+          this.apiService.delete(`${SOLICITUD.ELIMINAR_SOLICITUD}/${solicitudAEliminar.id_solicitud}`).subscribe({
+            next: () => {
+              this.solicitudes = this.solicitudes.filter(s => s.id_solicitud !== solicitudAEliminar.id_solicitud);
+              console.log('Solicitud eliminada exitosamente');
+            },
+            error: (error) => {
+              console.error('Error al eliminar la solicitud:', error);
+            }
+          });
+        }
+      },
+      () => {
+        console.log('Modal de eliminación cerrado');
+      }
+    );
+  }
 }

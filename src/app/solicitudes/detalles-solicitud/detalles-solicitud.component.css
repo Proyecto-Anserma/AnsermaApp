@@ -1,0 +1,14 @@
+.map-container {
+    width: 100%; /* Ajusta al ancho del contenedor */
+    height: 200px; /* Cambia el alto según tus necesidades */
+    border-radius: 10px;
+    overflow: hidden; /* Evita que algo sobresalga */
+    position: relative; /* Para manejar posiciones internas */
+  }
+  
+  #map {
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+  }
+  
