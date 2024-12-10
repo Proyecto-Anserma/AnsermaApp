@@ -1,0 +1,98 @@
+/* Estilo para el título principal */
+.title {
+    font-family: 'Elegant Font', sans-serif;
+    font-size: 3rem;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+/* Estilo para el subtítulo */
+.subtitle {
+    font-family: 'Elegant Font', sans-serif;
+    font-size: 1.5rem;
+    color: #555;
+    font-style: italic;
+}
+
+/* Estilo para la introducción */
+.introduccion {
+    font-family: 'Elegant Font', sans-serif;
+    font-size: 1.2rem;
+    color: #444;
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilo para el texto de la introducción */
+.intro-text {
+    font-style: verdana;
+    font-size: 92%;
+}
+
+/* Estilo para el mapa */
+.map-container {
+    height: 475px;
+    border-radius: 18px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    background: rgba(0, 0, 0, 0.1);
+}
+
+/* Estilo para la sección de fondo con imagen */
+.background-section {
+    background-image: url('https://rutasdelpaisajeculturalcafetero.com/wp-content/uploads/2017/10/Johann-Gianiany-Montoya-Restrepo-CC-Anserma-Caldas-3.jpg');
+    background-size: cover;
+    background-position: center;
+    color: white;
+    text-align: center;
+    padding: 100px 20px;
+    border-radius: 10px;
+    margin-top: 50px;
+}
+
+.overlay-text {
+    font-size: 2.5rem;
+    font-family: 'Elegant Font', sans-serif;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+}
+
+/* Estilo para los modales */
+.modal-container {
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    margin: 20px 0;
+}
+
+.modal-image {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+}
+
+.modal-container a {
+    color: #4f514a;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+/* Estilo para el footer */
+.footer {
+    background-color: #333;
+    color: white;
+    padding: 20px 0;
+    margin-top: 50px;
+}
+
+.footer p {
+    font-size: 1rem;
+}
+
+.footer a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
