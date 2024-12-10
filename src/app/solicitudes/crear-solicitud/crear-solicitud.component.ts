@@ -15,40 +15,26 @@ import { environment } from '../../environments/environment';
 })
 export class CrearSolicitudComponent implements AfterViewInit {
   solicitud: Solicitud = {
-    id_solicitud: 0,
     descripcion_solicitud: '',
-    fecha_creacion_solicitud: new Date(),
     geolocalizacion: '',
-    tipo_solicitud: 0,
-    ubicacion_solicitud: 0,
-    ciudadano_solicitud: '',
+    id_tipo_solicitud: 0,
+    id_ubicacion_solicitud: 0,
+    id_ciudadano_solicitud: '',
     foto_solicitud: ''
   };
 
-  mapa!: mapboxgl.Map; // Mapa Mapbox
+  mapa!: mapboxgl.Map; // Mapa de Mapbox
   marcador!: mapboxgl.Marker; // Marcador para selección
-
-  tipoSolicitudes = [
-    { id: 1, nombre: 'Tipo 1' },
-    { id: 2, nombre: 'Tipo 2' },
-    { id: 3, nombre: 'Tipo 3' }
-  ];
-
-  ubicaciones = [
-    { id: 101, nombre: 'Ubicación 1' },
-    { id: 102, nombre: 'Ubicación 2' },
-    { id: 103, nombre: 'Ubicación 3' }
-  ];
 
   constructor(public activeModal: NgbActiveModal) {}
 
   ngAfterViewInit(): void {
-    const defaultCoordinates: [number, number] = [-74.08175, 4.60971]; // Coordenadas iniciales (Bogotá, por ejemplo)
+    const defaultCoordinates: [number, number] = [-75.78194369561247, 5.242336190182367];
 
     // Inicializar el mapa
     this.mapa = new mapboxgl.Map({
-      container: 'createMap', // ID del contenedor
-      style: 'mapbox://styles/mapbox/streets-v12',
+      container: 'createMap',
+      style: 'mapbox://styles/mapbox/satellite-streets-v12',
       center: defaultCoordinates,
       zoom: 14,
       accessToken: environment.mapboxToken
@@ -73,17 +59,22 @@ export class CrearSolicitudComponent implements AfterViewInit {
   }
 
   actualizarGeolocalizacion(longitude: number, latitude: number): void {
-    const nuevaGeolocalizacion = `SRID=4326;POINT (${longitude} ${latitude})`;
-    this.solicitud.geolocalizacion = nuevaGeolocalizacion;
-    this.marcador.setLngLat([longitude, latitude]); // Actualizar marcador
+    this.solicitud.geolocalizacion = `SRID=4326;POINT (${longitude} ${latitude})`;
+    this.marcador.setLngLat([longitude, latitude]);
   }
 
-  guardar() {
-    console.log('Datos de la nueva solicitud:', this.solicitud);
+  guardar(): void {
+  
+    // Cerrar el modal y enviar la solicitud directamente (no necesita formateo adicional)
     this.activeModal.close(this.solicitud);
   }
 
-  subirFoto(event: Event) {
+  formatearFecha(fecha: Date): string {
+    // Convierte la fecha al formato 'YYYY-MM-DD'
+    return fecha.toISOString().split('T')[0];
+  }
+
+  subirFoto(event: Event): void {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files[0]) {
       const file = input.files[0];
@@ -97,12 +88,12 @@ export class CrearSolicitudComponent implements AfterViewInit {
     }
   }
 
-  triggerFileInput() {
+  triggerFileInput(): void {
     const uploadPhotoInput = document.getElementById('uploadPhoto') as HTMLInputElement;
     uploadPhotoInput.click();
   }
 
-  cerrarModal() {
+  cerrarModal(): void {
     this.activeModal.dismiss('Modal cerrado');
   }
 }

@@ -4,7 +4,6 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ApiService } from '../../core/servicios/service';
 import { SOLICITUD } from '../../environments/api-costant';
-import { SolicitudResponse } from '../../core/modelos/solicitud.model';
 import * as mapboxgl from 'mapbox-gl';
 import { environment } from '../../environments/environment';
 import 'mapbox-gl/dist/mapbox-gl.css';
