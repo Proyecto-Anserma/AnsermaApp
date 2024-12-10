@@ -1,0 +1,21 @@
+<div class="modal-header">
+    <h5 class="modal-title">Eliminar Solicitud</h5>
+    <button type="button" class="close" aria-label="Close" (click)="cerrarModal()" style="border: none; background: transparent; font-size: 1.5rem;">
+      <span aria-hidden="true" style="font-weight: bold;">&times;</span>
+    </button>
+  </div>
+  
+  <div class="modal-body">
+    <p>¿Está seguro que desea eliminar esta solicitud?</p>
+    <div class="alert alert-warning">
+      <strong>Descripción:</strong> {{ solicitud.descripcion_solicitud }}
+      <br>
+      <strong>Fecha:</strong> {{ solicitud.fecha_creacion_solicitud | date:'yyyy-MM-dd' }}
+    </div>
+  </div>
+  
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="cerrarModal()">Cancelar</button>
+    <button type="button" class="btn btn-danger" (click)="confirmarEliminacion()">Eliminar</button>
+  </div>
+  

@@ -1,0 +1,62 @@
+<div class="container">
+  <div class="row">
+    <div class="col-1">.col-1</div>
+    <div class="col-10">
+      <br><br><br>
+      <h1>Ayudas</h1>
+      <br><br>
+      
+      <div class="row g-3 align-items-center">
+        <div class="col-auto">
+          <label for="fechaFiltro" class="col-form-label">Fecha de Creación</label>
+          <input type="date" [(ngModel)]="fechaFiltro" name="fechaFiltro" id="fechaFiltro" class="form-control">
+        </div>
+        
+        <div class="col-auto">
+          <button type="submit" class="btn btn-success" (click)="consultarPorFecha()" [disabled]="loading">Buscar</button>
+        </div>  
+        <div class="col-auto">
+          <button type="button" class="btn btn-secondary" (click)="limpiarFiltros()">Limpiar</button>
+        </div>
+        <div class="col-auto">
+          <button type="button" class="btn btn-primary" (click)="abrirModalCrear()">Crear Ayuda</button>
+        </div>
+      </div>
+
+      <div *ngIf="loading" class="mt-3">Cargando...</div>
+      <div *ngIf="!loading && ayudas.length > 0" class="mt-3">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th scope="col">Descripción</th>
+              <th scope="col">Fecha de Creación</th>
+              <th scope="col">Observación</th>
+              <th scope="col">Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let ayuda of ayudas">
+              <td>{{ ayuda.descripcion_solicitud }}</td>
+              <td>{{ ayuda.fecha_creacion_ayuda | date: 'yyyy-MM-dd' }}</td>
+              <td>{{ ayuda.observacion_ayuda }}</td>
+              <td class="d-flex justify-content-evenly">
+                <button class="btn btn-link p-0 text-reset" title="Editar" 
+                        (click)="abrirModalEditar(ayuda)">
+                  <i class="bi bi-pencil-fill"></i>
+                </button>
+                <button class="btn btn-link p-0 text-reset" title="Eliminar"
+                        (click)="abrirModalEliminar(ayuda)">
+                  <i class="bi bi-trash-fill"></i>
+                </button>
+              </td>              
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div *ngIf="!loading && ayudas.length === 0" class="mt-3">
+        <p>No se encontraron ayudas.</p>
+      </div>
+    </div>
+    <div class="col-1">.col-1</div>
+  </div>
+</div>

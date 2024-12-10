@@ -1,0 +1,50 @@
+<div class="modal-header">
+  <h5 class="modal-title">Crear Nueva Solicitud</h5>
+  <button type="button" class="btn-close" aria-label="Close" (click)="cerrarModal()"></button>
+</div>
+<div class="modal-body">
+  <form>
+    <div class="mb-3">
+      <label for="descripcion" class="form-label">Descripción</label>
+      <textarea id="descripcion" class="form-control" [(ngModel)]="solicitud.descripcion_solicitud" name="descripcion"></textarea>
+    </div>
+
+    <div class="mb-3">
+      <label for="tipoSolicitud" class="form-label">Tipo de Solicitud</label>
+      <select id="tipoSolicitud" class="form-select" [(ngModel)]="solicitud.tipo_solicitud" name="tipoSolicitud">
+        <option *ngFor="let tipo of tipoSolicitudes" [value]="tipo.id">{{ tipo.nombre }}</option>
+      </select>
+    </div>
+
+    <div class="mb-3">
+      <label for="ubicacion" class="form-label">Ubicación</label>
+      <select id="ubicacion" class="form-select" [(ngModel)]="solicitud.ubicacion_solicitud" name="ubicacion">
+        <option *ngFor="let ubicacion of ubicaciones" [value]="ubicacion.id">{{ ubicacion.nombre }}</option>
+      </select>
+    </div>
+
+    <div class="mb-3">
+      <label for="ciudadano" class="form-label">Ciudadano</label>
+      <input id="ciudadano" type="text" class="form-control" [(ngModel)]="solicitud.ciudadano_solicitud" name="ciudadano" />
+    </div>
+
+    <div class="mb-3">
+      <label for="createMap" class="form-label">Selecciona una ubicación en el mapa:</label>
+      <div id="createMap" class="map-container" style="height: 400px; width: 100%;"></div>
+      <p class="text-muted mt-2">Coordenadas seleccionadas: {{ solicitud.geolocalizacion }}</p>
+    </div>
+
+    <div class="mb-3">
+      <label for="foto" class="form-label">Foto</label>
+      <button type="button" class="btn btn-secondary" (click)="triggerFileInput()">Subir Foto</button>
+      <input id="uploadPhoto" type="file" accept="image/*" class="d-none" (change)="subirFoto($event)" />
+      <div *ngIf="solicitud.foto_solicitud">
+        <img [src]="solicitud.foto_solicitud" alt="Foto subida" class="img-thumbnail mt-2" />
+      </div>
+    </div>
+  </form>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-primary" (click)="guardar()">Guardar</button>
+  <button type="button" class="btn btn-secondary" (click)="cerrarModal()">Cancelar</button>
+</div>
