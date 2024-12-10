@@ -1,3 +1,6 @@
+import { TipoSolicitud } from "./tipo_solicitud.model";
+import { Ubicacion } from "./ubicacion.model";
+
 export class Solicitud {
   id_solicitud?: number;
   descripcion_solicitud: string;
@@ -7,6 +10,9 @@ export class Solicitud {
   id_ciudadano_solicitud: string;
   geolocalizacion: string;
   foto_solicitud?: string;
+  
+  tipo_solicitud?: TipoSolicitud;
+  ubicacion?: Ubicacion;
 
   constructor(
     descripcion_solicitud: string,
@@ -16,7 +22,10 @@ export class Solicitud {
     geolocalizacion: string,
     fecha_creacion_solicitud?: Date,
     foto_solicitud?: string, 
-    id_solicitud?: number    
+    id_solicitud?: number,
+    tipo_solicitud?: TipoSolicitud,
+    ubicacion?: Ubicacion
+
   ) {
     this.id_solicitud = id_solicitud;
     this.descripcion_solicitud = descripcion_solicitud;
@@ -26,6 +35,8 @@ export class Solicitud {
     this.id_ciudadano_solicitud = id_ciudadano_solicitud;
     this.foto_solicitud = foto_solicitud;
     this.geolocalizacion = geolocalizacion;
+    this.tipo_solicitud = tipo_solicitud;
+    this.ubicacion = ubicacion;
   }
 }
 

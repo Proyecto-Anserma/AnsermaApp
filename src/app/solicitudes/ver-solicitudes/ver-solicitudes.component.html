@@ -43,7 +43,7 @@
               <td>{{ solicitud.descripcion_solicitud }}</td>
               <td>{{ solicitud.id_ciudadano_solicitud }}</td>
               <td>{{ solicitud.fecha_creacion_solicitud | date: 'yyyy-MM-dd' }}</td>
-              <td>{{ solicitud.id_tipo_solicitud }}</td>
+              <td>{{ solicitud.tipo_solicitud?.descripcion_tipo_solicitud }}</td>
               <td class="d-flex justify-content-evenly">
                 <button class="btn btn-link p-0 text-reset" title="Ver detalles"
                         (click)="abrirModalDetalles(solicitud)">
