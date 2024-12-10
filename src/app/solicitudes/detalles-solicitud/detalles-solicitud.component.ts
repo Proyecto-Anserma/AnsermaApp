@@ -1,7 +1,7 @@
 import { Component, Input, AfterViewInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { CommonModule } from '@angular/common';
-import { SolicitudResponse } from '../../core/modelos/solicitud.model';
+import { Solicitud } from '../../core/modelos/solicitud.model';
 import * as mapboxgl from 'mapbox-gl';
 import { environment } from '../../environments/environment';
 import 'mapbox-gl/dist/mapbox-gl.css';
@@ -15,7 +15,7 @@ import 'mapbox-gl/dist/mapbox-gl.css';
   imports: [CommonModule]
 })
 export class DetallesSolicitudComponent implements AfterViewInit {
-  @Input() solicitud!: SolicitudResponse;
+  @Input() solicitud!: Solicitud;
 
   map!: mapboxgl.Map;
 

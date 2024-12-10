@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../../core/servicios/service';
 import { SOLICITUD } from '../../environments/api-costant';
-import { SolicitudResponse, SolicitudFiltrar } from '../../core/modelos/solicitud.model'; 
+import { Solicitud, SolicitudFiltrar } from '../../core/modelos/solicitud.model'; 
 import { FormsModule } from '@angular/forms'; 
 import { CommonModule } from '@angular/common';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -18,7 +18,7 @@ import { EliminarSolicitudComponent } from '../eliminar-solicitud/eliminar-solic
   styleUrls: ['./ver-solicitudes.component.css']
 })
 export class VerSolicitudesComponent implements OnInit {
-  solicitudes: SolicitudResponse[] = []; 
+  solicitudes: Solicitud[] = []; 
   descripcionFiltro: string = '';
   cedulaFiltro: string = '';
   loading: boolean = false;
@@ -34,7 +34,7 @@ export class VerSolicitudesComponent implements OnInit {
     const filtro = new SolicitudFiltrar('', ''); 
 
     this.apiService.post(SOLICITUD.FILTRAR_SOLICITUDES, filtro).subscribe({
-      next: (respuesta: SolicitudResponse[]) => {
+      next: (respuesta: Solicitud[]) => {
         this.solicitudes = respuesta;
         this.loading = false;
       },
@@ -55,7 +55,7 @@ export class VerSolicitudesComponent implements OnInit {
 
     this.loading = true;
     this.apiService.post(SOLICITUD.FILTRAR_SOLICITUDES, filtro).subscribe({
-      next: (respuesta: SolicitudResponse[]) => { 
+      next: (respuesta: Solicitud[]) => { 
         this.solicitudes = respuesta;
         this.loading = false;
       },
@@ -72,17 +72,17 @@ export class VerSolicitudesComponent implements OnInit {
     this.cargarSolicitudes();
   }
 
-  abrirModalDetalles(solicitud: SolicitudResponse) {
+  abrirModalDetalles(solicitud: Solicitud) {
     const modalRef = this.modalService.open(DetallesSolicitudComponent, { size: 'lg' });
     modalRef.componentInstance.solicitud = { ...solicitud }; // Pasar los datos de la solicitud al modal
   }  
 
-  abrirModalEditar(solicitud: SolicitudResponse) {
+  abrirModalEditar(solicitud: Solicitud) {
     const modalRef = this.modalService.open(EditarSolicitudComponent);
     modalRef.componentInstance.solicitud = { ...solicitud }; 
   
     modalRef.result.then(
-      (resultado: SolicitudResponse) => {
+      (resultado: Solicitud) => {
         if (resultado) {
           // Actualizamos la solicitud en la lista local
           const index = this.solicitudes.findIndex(s => s.id_solicitud === resultado.id_solicitud);
@@ -101,17 +101,10 @@ export class VerSolicitudesComponent implements OnInit {
     const modalRef = this.modalService.open(CrearSolicitudComponent);
 
     modalRef.result.then(
-      (nuevaSolicitud: SolicitudResponse) => {
-        if (nuevaSolicitud) {
-          const body = {
-            descripcion_solicitud: nuevaSolicitud.descripcion_solicitud,
-            id_ciudadano_solicitud: nuevaSolicitud.id_ciudadano_solicitud,
-            fecha_creacion_solicitud: nuevaSolicitud.fecha_creacion_solicitud,
-            id_tipo_solicitud: nuevaSolicitud.id_tipo_solicitud
-          };
-
-          this.apiService.post(SOLICITUD.CREAR_SOLICITUD, body).subscribe({
-            next: (respuesta: SolicitudResponse) => {
+      (nuevaSolicitud: Solicitud) => {
+        if (nuevaSolicitud) { 
+          this.apiService.post(SOLICITUD.CREAR_SOLICITUD, nuevaSolicitud).subscribe({
+            next: (respuesta: Solicitud) => {
               this.solicitudes.push(respuesta);
               console.log('Solicitud creada exitosamente');
             },
@@ -127,12 +120,12 @@ export class VerSolicitudesComponent implements OnInit {
     );
   }
 
-  abrirModalEliminar(solicitud: SolicitudResponse): void {
+  abrirModalEliminar(solicitud: Solicitud): void {
     const modalRef = this.modalService.open(EliminarSolicitudComponent);
     modalRef.componentInstance.solicitud = solicitud;
 
     modalRef.result.then(
-      (solicitudAEliminar: SolicitudResponse) => {
+      (solicitudAEliminar: Solicitud) => {
         if (solicitudAEliminar) {
           this.apiService.delete(`${SOLICITUD.ELIMINAR_SOLICITUD}/${solicitudAEliminar.id_solicitud}`).subscribe({
             next: () => {
