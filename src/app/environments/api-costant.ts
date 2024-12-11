@@ -11,7 +11,7 @@ export const SOLICITUD = {
     FILTRAR_SOLICITUDES: PORT + "/solicitudes/filtrar-solicitudes/", 
     CREAR_SOLICITUD: PORT+"/solicitudes/crear-solicitud",
     EDITAR_SOLICITUD: PORT+"/solicitudes/editar-solicitud",
-    ELIMINAR_SOLICITUD: PORT + "/solicitudes/eliminar-solicitud"
+    ELIMINAR_SOLICITUD: PORT + "/solicitudes/eliminar-solicitud",
 };
 
 export const AYUDAS = {
@@ -24,3 +24,11 @@ export const AYUDAS = {
 export const USUARIO = {
     CONSULTAR_USUARIOS: PORT+"/consultar-usuarios"
 };
+
+export const TIPO_SOLICITUD = {
+    CONSULTAR_TODO: PORT +  "/tipo_solicitud/obtener_todos/"
+}
+
+export const UBICACION = {
+    CONSULTAR_TODO: PORT +  "/ubicaciones/obtener_todos/"
+}

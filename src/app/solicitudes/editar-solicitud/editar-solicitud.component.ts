@@ -1,12 +1,15 @@
-import { Component, Input, AfterViewInit } from '@angular/core';
+import { Component, Input, AfterViewInit, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ApiService } from '../../core/servicios/service';
-import { SOLICITUD } from '../../environments/api-costant';
+import { SOLICITUD, TIPO_SOLICITUD, UBICACION } from '../../environments/api-costant';
 import * as mapboxgl from 'mapbox-gl';
 import { environment } from '../../environments/environment';
 import 'mapbox-gl/dist/mapbox-gl.css';
+import { TipoSolicitud } from '../../core/modelos/tipo_solicitud.model';
+import { Ubicacion } from '../../core/modelos/ubicacion.model';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-editar-solicitud',
@@ -15,15 +18,25 @@ import 'mapbox-gl/dist/mapbox-gl.css';
   templateUrl: './editar-solicitud.component.html',
   styleUrls: ['./editar-solicitud.component.css']
 })
-export class EditarSolicitudComponent implements AfterViewInit {
+export class EditarSolicitudComponent implements OnInit, AfterViewInit {
   @Input() solicitud!: Record<string, any>;
   mapa!: mapboxgl.Map; // Mapa Mapbox
-  marcador!: mapboxgl.Marker; // Marcador en el mapa
+  marcador!: mapboxgl.Marker; // Marcador en el mapa}
+
+  tipoSolicitudes: TipoSolicitud[] = []
+  ubicaciones: Ubicacion[] = []
+
 
   constructor(
     public activeModal: NgbActiveModal,
     private apiService: ApiService
   ) {}
+
+
+  ngOnInit(){
+    this.consultarTodosTipoSolicitud();
+    this.consultarTodosUbicacion();
+  }
 
   ngAfterViewInit(): void {
     const coordinates = this.parseCoordinates(this.solicitud['geolocalizacion']); // Corregir acceso a la propiedad
@@ -88,13 +101,31 @@ export class EditarSolicitudComponent implements AfterViewInit {
   }
 
   guardar() {
-    console.log('Geolocalización actual:', this.solicitud['geolocalizacion']); // Corregir acceso a la propiedad
     const solicitudId = this.solicitud['id_solicitud'];
+    const solicitudPeticion = { ...this.solicitud };
     const url = `${SOLICITUD.EDITAR_SOLICITUD}/${solicitudId}`;
-    this.apiService.put(url, this.solicitud).subscribe({
+
+    delete solicitudPeticion['tipo_solicitud'];
+    
+    this.apiService.put(url, solicitudPeticion).subscribe({
       next: (response) => {
-        console.log('Solicitud editada exitosamente:', response);
+
+        this.solicitud['tipo_solicitud'] = this.tipoSolicitudes[this.solicitud['id_tipo_solicitud']-1]
+
+        Swal.fire({
+          title: 'Éxito',
+          text: 'Solicitud editada con éxito',
+          icon: 'success',
+          confirmButtonText: 'Aceptar',
+          customClass: {
+            confirmButton: 'btn btn-primary', // Clase de estilo de Bootstrap
+          },
+          buttonsStyling: false // Desactiva los estilos predeterminados de SweetAlert2
+        });
+    
+
         this.activeModal.close(this.solicitud);
+        
       },
       error: (error) => {
         console.error('Error al editar la solicitud:', error);
@@ -140,5 +171,33 @@ export class EditarSolicitudComponent implements AfterViewInit {
 
   cerrarModal() {
     this.activeModal.dismiss('Modal cerrado');
+  }
+
+
+  consultarTodosTipoSolicitud(){
+    this.apiService.get(TIPO_SOLICITUD.CONSULTAR_TODO).subscribe({
+      next: (respuesta) => {
+        
+        this.tipoSolicitudes = respuesta;
+      },
+      error: (error) => {
+        // Manejar cualquier error que ocurra durante la solicitud
+        console.error("Se produjo un error: " + error);
+      },
+    });
+  }
+
+
+  consultarTodosUbicacion(){
+    this.apiService.get(UBICACION.CONSULTAR_TODO).subscribe({
+      next: (respuesta) => {
+        
+        this.ubicaciones = respuesta;
+      },
+      error: (error) => {
+        // Manejar cualquier error que ocurra durante la solicitud
+        console.error("Se produjo un error: " + error);
+      },
+    });
   }
 }

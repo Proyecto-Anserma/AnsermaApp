@@ -7,33 +7,65 @@
     <div class="modal-body">
       <div class="row">
         <!-- Descripción ocupando dos columnas -->
-        <div class="col-md-12 mb-3">
+        <div class="col-md-12 mb-4">
           <label class="form-label">{{ obtenerTitulo('descripcion_solicitud') }}</label>
           <textarea [(ngModel)]="solicitud['descripcion_solicitud']" class="form-control" rows="2"></textarea>
         </div>
       </div>
       <div class="row">
-        <!-- Otras solicitudes en dos columnas -->
-        <div class="col-md-6" *ngFor="let key of objectKeys(solicitud)">
-          <div *ngIf="key !== 'id_solicitud' && key !== 'descripcion_solicitud' && key !== 'geolocalizacion' && key !== 'foto_solicitud'">
-            <label class="form-label">{{ obtenerTitulo(key) }}</label>
-            <input [(ngModel)]="solicitud[key]" class="form-control mb-3" />
-          </div>
+        <!-- Campo para descripción de la solicitud -->
+        <div class="col-md-6 mb-4">
+          <label class="form-label">Descripción de la solicitud</label>
+          <input [(ngModel)]="solicitud['descripcion_solicitud']" class="form-control" />
+        </div>
+
+        <!-- Campo para fecha de creación -->
+        <div class="col-md-6 mb-4">
+          <label class="form-label">Fecha de creación</label>
+          <input [(ngModel)]="solicitud['fecha_creacion_solicitud']" type="date" class="form-control" />
+        </div>
+
+        <!-- Campo para tipo de solicitud -->
+        <div class="col-md-6 mb-4">
+          <label class="form-label">Tipo de solicitud</label>
+          <select [(ngModel)]="solicitud['id_tipo_solicitud']" class="form-control">
+            <option *ngFor="let tipo of tipoSolicitudes" [value]="tipo.id_tipo_solicitud">
+              {{ tipo.descripcion_tipo_solicitud }}
+            </option>
+          </select>
+        </div>
+
+        <!-- Campo para ubicaciones -->
+        <div class="col-md-6 mb-4">
+          <label class="form-label">Ubicación de la solicitud</label>
+          <select [(ngModel)]="solicitud['id_ubicacion_solicitud']" class="form-control">
+            <option *ngFor="let ubicacion of ubicaciones" [value]="ubicacion.id_ubicacion">
+              {{ ubicacion.descripcion_ubicacion }}
+            </option>
+          </select>
+        </div>
+
+        <!-- Campo para ciudadano de la solicitud -->
+        <div class="col-md-6 mb-4">
+          <label class="form-label">Ciudadano</label>
+          <input [(ngModel)]="solicitud['id_ciudadano_solicitud']" type="text" class="form-control" />
         </div>
       </div>
+
       <div class="row">
         <!-- Geolocalización en una sola columna -->
-        <div class="col-md-12 d-flex flex-column align-items-center mb-3">
+        <div class="col-md-12 d-flex flex-column align-items-center mb-4">
           <label class="form-label">{{ obtenerTitulo('geolocalizacion') }}</label>
           <div class="map-container" style="width: 100%; height: 350px;">
             <div id="editMap" style="width: 100%; height: 100%; border-radius: 10px;"></div>
           </div>
-          <p class="text-muted mt-1" style="font-size: 11px;">Haz clic en el mapa para seleccionar una nueva geolocalización.</p>
+          <p class="text-muted mt-2" style="font-size: 12px;">Haz clic en el mapa para seleccionar una nueva geolocalización.</p>
         </div>
       </div>
+
       <div class="row">
         <!-- Contenedor centrado de la foto -->
-        <div class="col-md-6 d-flex flex-column align-items-center justify-content-center mb-3">
+        <div class="col-md-6 d-flex flex-column align-items-center justify-content-center mb-4">
           <label class="form-label">{{ obtenerTitulo('foto_solicitud') }}</label>
           <!-- Contenedor centrado de la imagen -->
           <div class="image-container d-flex justify-content-center align-items-center" style="width: 100%; height: 200px;">
@@ -42,9 +74,8 @@
             </div>
           </div>
           <input type="file" id="uploadPhoto" class="form-control-file d-none" (change)="subirFoto($event)" accept="image/*">
-          <button class="btn btn-sm btn-primary" (click)="triggerFileInput()">Subir Foto</button>
+          <button class="btn btn-sm btn-primary mt-2" (click)="triggerFileInput()">Subir Foto</button>
         </div>
-        
       </div>
     </div>
     <div class="modal-footer">
