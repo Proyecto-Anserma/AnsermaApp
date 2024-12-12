@@ -7,6 +7,7 @@ import { Ciudadano } from '../../core/modelos/ciudadano.model';
 import { CIUDADANO } from '../../environments/api-costant';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { EditarCiudadanoComponent } from '../editar-ciudadano/editar-ciudadano.component';
+import { DetallesCiudadanoComponent } from '../detalles-ciudadano/detalles-ciudadano.component';
 
 @Component({
   selector: 'app-ver-ciudadanos',
@@ -52,6 +53,11 @@ export class VerCiudadanosComponent {
 
   abrirModalEditar(ciudadano: Ciudadano) {
     const modalRef = this.modalService.open(EditarCiudadanoComponent);
+    modalRef.componentInstance.ciudadano = ciudadano;
+  }
+
+  abrirModalDetalles(ciudadano: Ciudadano){
+    const modalRef = this.modalService.open(DetallesCiudadanoComponent);
     modalRef.componentInstance.ciudadano = ciudadano;
   }
 }

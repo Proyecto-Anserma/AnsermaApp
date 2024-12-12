@@ -40,6 +40,10 @@
             <td>{{ ciudadano.apellido_ciudadano }}</td>
             <td>{{ ciudadano.telefono_ciudadano }}</td> 
             <td>
+              <button class="btn btn-link p-0 text-reset" title="Ver detalles"
+                        (click)="abrirModalDetalles(ciudadano)">
+                  <i class="bi bi-eye-fill me-4"></i>
+                </button>
               <button class="btn btn-link p-0 text-reset" title="Editar" 
                       (click)="abrirModalEditar(ciudadano)">
                   <i class="bi bi-pencil-fill me-4"></i>

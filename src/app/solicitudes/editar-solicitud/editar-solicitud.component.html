@@ -5,13 +5,7 @@
       <button type="button" class="btn-close" aria-label="Close" (click)="cerrarModal()"></button>
     </div>
     <div class="modal-body">
-      <div class="row">
-        <!-- Descripción ocupando dos columnas -->
-        <div class="col-md-12 mb-4">
-          <label class="form-label">{{ obtenerTitulo('descripcion_solicitud') }}</label>
-          <textarea [(ngModel)]="solicitud['descripcion_solicitud']" class="form-control" rows="2"></textarea>
-        </div>
-      </div>
+     
       <div class="row">
         <!-- Campo para descripción de la solicitud -->
         <div class="col-md-6 mb-4">

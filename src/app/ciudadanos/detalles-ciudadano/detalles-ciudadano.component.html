@@ -1,0 +1,72 @@
+<div class="modal-header">
+    <h5 class="modal-title">Ver Ciudadano</h5>
+    <button type="button" class="close" aria-label="Close" (click)="cerrarModal()"
+        style="border: none; background: transparent; font-size: 1.5rem;">
+        <span aria-hidden="true" style="font-weight: bold;">&times;</span>
+    </button>
+</div>
+
+<div class="modal-body">
+    <form #ciudadanoForm="ngForm">
+
+        <div class="form-group mb-4">
+            <label for="nombre">Cedula</label>
+            <input type="number" id="nombre" class="form-control"
+                [(ngModel)]="ciudadano.numero_identificacion_ciudadano" name="numero_identificacion_ciudadano" required
+                readonly />
+        </div>
+        <div class="form-group mb-4">
+            <label for="nombre">Nombre</label>
+            <input type="text" id="nombre" class="form-control" [(ngModel)]="ciudadano.nombre_ciudadano"
+                name="nombre_ciudadano" required readonly />
+        </div>
+
+        <div class="form-group mb-4">
+            <label for="apellido">Apellido</label>
+            <input type="text" id="apellido" class="form-control" [(ngModel)]="ciudadano.apellido_ciudadano"
+                name="apellido_ciudadano" required readonly />
+        </div>
+
+        <div class="form-group mb-4">
+            <label for="fechaNacimiento">Fecha de Nacimiento</label>
+            <input type="date" id="fechaNacimiento" class="form-control"
+                [(ngModel)]="ciudadano.fecha_nacimiento_ciudadano" name="fecha_nacimiento_ciudadano" required
+                readonly />
+        </div>
+
+        <div class="form-group mb-4">
+            <label for="correo">Correo Electrónico</label>
+            <input type="email" id="correo" class="form-control" [(ngModel)]="ciudadano.correo_electronico_ciudadano"
+                name="correo_electronico_ciudadano" required readonly />
+        </div>
+
+        <div class="form-group mb-4">
+            <label for="telefono">Teléfono</label>
+            <input type="tel" id="telefono" class="form-control" [(ngModel)]="ciudadano.telefono_ciudadano"
+                name="telefono_ciudadano" readonly />
+        </div>
+
+        
+        <div class="form-group mb-4">
+            <label for="telefono">Genero</label>
+            <input type="text" id="genero" class="form-control" [value]="ciudadano.genero?.descripcion_genero || ''"
+                name="descripcion_genero" readonly />
+        </div>
+
+        <div class="form-group mb-4">
+            <label for="telefono">Pertenencia Etnica</label>
+            <input type="text" id="genero" class="form-control" [value]="ciudadano.pertenencia_etnica?.descripcion_pertenencia_etnica || ''"
+                name="descripcion_genero" readonly />
+        </div>
+
+        <div class="form-group mb-4">
+            <label for="telefono">Ubicación</label>
+            <input type="text" id="genero" class="form-control" [value]="ciudadano.ubicacion?.descripcion_ubicacion || ''"
+                name="descripcion_genero" readonly />
+        </div>
+    </form>
+</div>
+
+<div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="cerrarModal()">Cancelar</button>
+</div>
