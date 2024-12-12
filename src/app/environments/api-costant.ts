@@ -4,7 +4,7 @@ const PORT = environment.PORT;
 
 export const CIUDADANO = {
     CONSULTAR_CIUDADANOS: PORT+"/ciudadanos/filtrar-ciudadanos/",
-    EDITAR_CIUDAD: PORT+"/ciudadanos/editar-ciudadano"
+    EDITAR_CIUDADANO: PORT+"/ciudadanos/editar-ciudadano"
 };
 
 export const SOLICITUD = {
