@@ -32,3 +32,7 @@ export const TIPO_SOLICITUD = {
 export const UBICACION = {
     CONSULTAR_TODO: PORT +  "/ubicaciones/obtener_todos/"
 }
+
+export const PERTENENCIA_ETNICA = {
+    CONSULTAR_TODO: PORT +  "/pertenencia_etnica/obtener_todos/"
+}

@@ -13,7 +13,7 @@
           type="number"
           id="nombre"
           class="form-control"
-          [(ngModel)]="ciudadano.numero_identificacion_ciudadano"
+          [(ngModel)]="ciudadano['numero_identificacion_ciudadano']"
           name="numero_identificacion_ciudadano"
           required
           readonly
@@ -25,7 +25,7 @@
           type="text"
           id="nombre"
           class="form-control"
-          [(ngModel)]="ciudadano.nombre_ciudadano"
+          [(ngModel)]="ciudadano['nombre_ciudadano']"
           name="nombre_ciudadano"
           required
         />
@@ -37,7 +37,7 @@
           type="text"
           id="apellido"
           class="form-control"
-          [(ngModel)]="ciudadano.apellido_ciudadano"
+          [(ngModel)]="ciudadano['apellido_ciudadano']"
           name="apellido_ciudadano"
           required
         />
@@ -49,7 +49,7 @@
           type="date"
           id="fechaNacimiento"
           class="form-control"
-          [(ngModel)]="ciudadano.fecha_nacimiento_ciudadano"
+          [(ngModel)]="ciudadano['fecha_nacimiento_ciudadano']"
           name="fecha_nacimiento_ciudadano"
           required
         />
@@ -61,7 +61,7 @@
           type="email"
           id="correo"
           class="form-control"
-          [(ngModel)]="ciudadano.correo_electronico_ciudadano"
+          [(ngModel)]="ciudadano['correo_electronico_ciudadano']"
           name="correo_electronico_ciudadano"
           required
         />
@@ -73,9 +73,29 @@
           type="tel"
           id="telefono"
           class="form-control"
-          [(ngModel)]="ciudadano.telefono_ciudadano"
+          [(ngModel)]="ciudadano['telefono_ciudadano']"
           name="telefono_ciudadano"
         />
+      </div>
+
+      <!-- Campo para ubicaciones -->
+      <div class="col-md-6 mb-4">
+        <label class="form-label">Ubicación de Ciudadano</label>
+        <select [(ngModel)]="ciudadano['id_ubicacion_ciudadano']" class="form-control" name="ubicacionCiudadano">
+          <option *ngFor="let ubicacion of ubicaciones" [value]="ubicacion.id_ubicacion">
+            {{ ubicacion.descripcion_ubicacion }}
+          </option>
+        </select>
+      </div>
+
+      <!-- Campo para pertenencia etnica -->
+      <div class="col-md-6 mb-4">
+        <label class="form-label">Pertenencia Etnica</label>
+        <select [(ngModel)]="ciudadano['id_pertenencia_etnica_ciudadano']" class="form-control" name="pertenenciaEtnicaCiudadano">
+          <option *ngFor="let pertenenciaEtnica of pertenenciasEtnicas" [value]="pertenenciaEtnica.id_pertenencia_etnica">
+            {{ pertenenciaEtnica.descripcion_pertenencia_etnica }}
+          </option>
+        </select>
       </div>
 
       

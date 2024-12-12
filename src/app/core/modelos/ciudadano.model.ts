@@ -10,6 +10,9 @@ export class Ciudadano {
     correo_electronico_ciudadano: string;
     telefono_ciudadano: string;
     geolocalizacion: string;
+    id_ubicacion_ciudadano: number;
+    id_pertenencia_etnica_ciudadano: number;
+    id_genero_ciudadano: number;
 
     genero?: Genero;
     pertenencia_etnica?: PertenenciaEtnica;
@@ -23,6 +26,9 @@ export class Ciudadano {
       correo_electronico_ciudadano: string,
       telefono_ciudadano: string,
       geolocalizacion: string,
+      id_ubicacion_ciudadano: number,
+      id_pertenencia_etnica_ciudadano: number,
+      id_genero_ciudadano: number,
 
       genero?: Genero,
       pertenencia_etnica?: PertenenciaEtnica,
@@ -36,6 +42,10 @@ export class Ciudadano {
       this.correo_electronico_ciudadano = correo_electronico_ciudadano;
       this.telefono_ciudadano = telefono_ciudadano;
       this.geolocalizacion = geolocalizacion;
+      this.id_ubicacion_ciudadano= id_ubicacion_ciudadano;
+      this.id_pertenencia_etnica_ciudadano = id_pertenencia_etnica_ciudadano;
+      this.id_genero_ciudadano = id_genero_ciudadano;
+
       this.genero = genero;
       this.pertenencia_etnica = pertenencia_etnica;
       this.ubicacion = ubicacion;

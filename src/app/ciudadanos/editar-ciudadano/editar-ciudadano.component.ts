@@ -4,19 +4,23 @@ import { NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
 import { ApiService } from '../../core/servicios/service';
 import { Ubicacion } from '../../core/modelos/ubicacion.model';
-import { UBICACION } from '../../environments/api-costant';
+import { PERTENENCIA_ETNICA, UBICACION } from '../../environments/api-costant';
+import { CommonModule } from '@angular/common';
+import { PertenenciaEtnica } from '../../core/modelos/pertenencia_etnica.model';
 
 @Component({
   selector: 'app-editar-ciudadano',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, CommonModule],
   templateUrl: './editar-ciudadano.component.html',
   styleUrl: './editar-ciudadano.component.css'
 })
 export class EditarCiudadanoComponent implements OnInit {
 
-  @Input() ciudadano!: Ciudadano;
+  @Input() ciudadano!: Record<string, any>;
   ubicaciones: Ubicacion[] = []
+  pertenenciasEtnicas: PertenenciaEtnica[] = []
+
 
   constructor(
     public activeModal: NgbActiveModal,
@@ -25,6 +29,7 @@ export class EditarCiudadanoComponent implements OnInit {
   ) { }
   ngOnInit(){
     this.consultarTodosUbicacion();
+    this.consultarTodasPertenenciaEtnica();
   }
 
   cerrarModal() {
@@ -43,6 +48,19 @@ export class EditarCiudadanoComponent implements OnInit {
       next: (respuesta) => {
         
         this.ubicaciones = respuesta;
+      },
+      error: (error) => {
+        // Manejar cualquier error que ocurra durante la solicitud
+        console.error("Se produjo un error: " + error);
+      },
+    });
+  }
+
+  consultarTodasPertenenciaEtnica(){
+    this.apiService.get(PERTENENCIA_ETNICA.CONSULTAR_TODO).subscribe({
+      next: (respuesta) => {
+        
+        this.pertenenciasEtnicas = respuesta;
       },
       error: (error) => {
         // Manejar cualquier error que ocurra durante la solicitud
