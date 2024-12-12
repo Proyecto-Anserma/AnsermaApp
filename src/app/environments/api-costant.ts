@@ -36,3 +36,7 @@ export const UBICACION = {
 export const PERTENENCIA_ETNICA = {
     CONSULTAR_TODO: PORT +  "/pertenencia_etnica/obtener_todos/"
 }
+
+export const GENERO = {
+    CONSULTAR_TODO: PORT +  "/genero/obtener_todos/"
+}

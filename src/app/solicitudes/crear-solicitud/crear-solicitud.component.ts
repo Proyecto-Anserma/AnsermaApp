@@ -1,10 +1,14 @@
-import { Component, AfterViewInit } from '@angular/core';
+import { Component, AfterViewInit, OnInit } from '@angular/core';
 import { Solicitud } from '../../core/modelos/solicitud.model';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import * as mapboxgl from 'mapbox-gl';
 import { environment } from '../../environments/environment';
+import { TIPO_SOLICITUD, UBICACION } from '../../environments/api-costant';
+import { TipoSolicitud } from '../../core/modelos/tipo_solicitud.model';
+import { Ubicacion } from '../../core/modelos/ubicacion.model';
+import { ApiService } from '../../core/servicios/service';
 
 @Component({
   selector: 'app-crear-solicitud',
@@ -13,20 +17,35 @@ import { environment } from '../../environments/environment';
   templateUrl: './crear-solicitud.component.html',
   styleUrls: ['./crear-solicitud.component.css']
 })
-export class CrearSolicitudComponent implements AfterViewInit {
+export class CrearSolicitudComponent implements OnInit, AfterViewInit {
   solicitud: Solicitud = {
     descripcion_solicitud: '',
     geolocalizacion: '',
-    id_tipo_solicitud: 0,
-    id_ubicacion_solicitud: 0,
+    id_tipo_solicitud:null, // Cambiar a null
+    id_ubicacion_solicitud: null, // Cambiar a null
     id_ciudadano_solicitud: '',
     foto_solicitud: ''
   };
+  
 
   mapa!: mapboxgl.Map; // Mapa de Mapbox
   marcador!: mapboxgl.Marker; // Marcador para selección
 
-  constructor(public activeModal: NgbActiveModal) {}
+  tipoSolicitudes: TipoSolicitud[] = []
+  ubicaciones: Ubicacion[] = []
+
+  constructor(
+    public activeModal: NgbActiveModal, 
+    private apiService: ApiService
+  ) {}
+
+  ngOnInit(){
+    console.log(this.solicitud)
+    this.consultarTodosTipoSolicitud();
+    this.consultarTodosUbicacion();
+
+    
+  }
 
   ngAfterViewInit(): void {
     const defaultCoordinates: [number, number] = [-75.78194369561247, 5.242336190182367];
@@ -64,6 +83,9 @@ export class CrearSolicitudComponent implements AfterViewInit {
   }
 
   guardar(): void {
+
+    this.solicitud.geolocalizacion ="SRID=4326;POINT (-75.58503817385566 6.23594400231994)";
+    console.log(this.solicitud)
   
     // Cerrar el modal y enviar la solicitud directamente (no necesita formateo adicional)
     this.activeModal.close(this.solicitud);
@@ -95,5 +117,34 @@ export class CrearSolicitudComponent implements AfterViewInit {
 
   cerrarModal(): void {
     this.activeModal.dismiss('Modal cerrado');
+  }
+
+
+  consultarTodosTipoSolicitud(){
+    this.apiService.get(TIPO_SOLICITUD.CONSULTAR_TODO).subscribe({
+      next: (respuesta) => {
+        
+        this.tipoSolicitudes = respuesta;
+      },
+      error: (error) => {
+        // Manejar cualquier error que ocurra durante la solicitud
+        console.error("Se produjo un error: " + error);
+      },
+    });
+  }
+
+
+  consultarTodosUbicacion(){
+    this.apiService.get(UBICACION.CONSULTAR_TODO).subscribe({
+      next: (respuesta) => {
+        
+        this.ubicaciones = respuesta;
+        console.log(this.solicitud.id_ubicacion_solicitud)
+      },
+      error: (error) => {
+        // Manejar cualquier error que ocurra durante la solicitud
+        console.error("Se produjo un error: " + error);
+      },
+    });
   }
 }

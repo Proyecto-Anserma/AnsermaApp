@@ -9,22 +9,29 @@
       <textarea id="descripcion" class="form-control" [(ngModel)]="solicitud.descripcion_solicitud" name="descripcion"></textarea>
     </div>
 
-    <div class="mb-3">
-      <label for="tipoSolicitud" class="form-label">Tipo de Solicitud</label>
-      <input 
-        id="tipoSolicitud" 
-        type="number" 
-        class="form-control" 
-        [(ngModel)]="solicitud.id_tipo_solicitud" 
-        name="tipoSolicitud" 
-      />
+    <!-- Campo para tipo de solicitud -->
+    <div class="col-md-6 mb-4">
+      <label class="form-label">Tipo de solicitud</label>
+      <select name="solicitudForm" [(ngModel)]="solicitud.id_tipo_solicitud" class="form-control">
+        <option [value]="null" disabled selected>Seleccione tipo de solicitud</option>
+        <option *ngFor="let tipo of tipoSolicitudes" [value]="tipo.id_tipo_solicitud">
+          {{ tipo.descripcion_tipo_solicitud }}
+        </option>
+      </select>
     </div>
 
-    <div class="mb-3">
-      <label for="ubicacion" class="form-label">Ubicación</label>
-      <input id="ubicacion" type="number" class="form-control" [(ngModel)]="solicitud.id_ubicacion_solicitud" name="ubicacion" />
-
+    <!-- Campo para ubicaciones -->
+    <div class="col-md-6 mb-4">
+      <label class="form-label">Ubicación de la solicitud</label>
+      <select name="ubicacionForm" [(ngModel)]="solicitud.id_ubicacion_solicitud" class="form-control">
+        <option [value]="null" disabled selected>Seleccione Ubicación</option>
+        <option *ngFor="let ubicacion of ubicaciones" [value]="ubicacion.id_ubicacion">
+          {{ ubicacion.descripcion_ubicacion }}
+        </option>
+      </select>
     </div>
+
+
 
     <div class="mb-3">
       <label for="ciudadano" class="form-label">Ciudadano</label>
@@ -51,6 +58,7 @@
         type="file" 
         accept="image/*" 
         class="d-none" 
+        [(ngModel)]="solicitud.foto_solicitud"
         (change)="subirFoto($event)" 
       />
       <div *ngIf="solicitud.foto_solicitud">

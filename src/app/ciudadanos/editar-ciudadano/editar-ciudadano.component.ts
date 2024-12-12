@@ -4,13 +4,16 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms'; 
 import { ApiService } from '../../core/servicios/service'; 
 import { Ubicacion } from '../../core/modelos/ubicacion.model'; 
-import { CIUDADANO, PERTENENCIA_ETNICA, UBICACION } from '../../environments/api-costant'; 
+import { Genero } from '../../core/modelos/genero.model'; 
+import { CIUDADANO, GENERO, PERTENENCIA_ETNICA, UBICACION } from '../../environments/api-costant'; 
 import { CommonModule } from '@angular/common'; 
 import { PertenenciaEtnica } from '../../core/modelos/pertenencia_etnica.model';
 import * as mapboxgl from 'mapbox-gl';
 import { environment } from '../../environments/environment';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import Swal from 'sweetalert2';
+
+
 
 @Component({
   selector: 'app-editar-ciudadano',
@@ -26,6 +29,8 @@ export class EditarCiudadanoComponent implements OnInit, AfterViewInit {
 
   ubicaciones: Ubicacion[] = []
   pertenenciasEtnicas: PertenenciaEtnica[] = []
+  generos: Genero[] = []
+
 
   constructor(
     public activeModal: NgbActiveModal,
@@ -35,6 +40,7 @@ export class EditarCiudadanoComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     this.consultarTodosUbicacion();
     this.consultarTodasPertenenciaEtnica();
+    this.consultarTodosGeneros();
   }
 
   ngAfterViewInit(): void {
@@ -111,7 +117,6 @@ export class EditarCiudadanoComponent implements OnInit, AfterViewInit {
     delete ciudadanoPeticion['pertenencia_etnica_ciudadano'];
     delete ciudadanoPeticion['genero']; 
 
-    console.log('Objeto a enviar:', ciudadanoPeticion);
     
     this.apiService.put(url, ciudadanoPeticion).subscribe({
       next: (response) => {
@@ -122,6 +127,10 @@ export class EditarCiudadanoComponent implements OnInit, AfterViewInit {
         
         this.ciudadano['pertenencia_etnica_ciudadano'] = this.pertenenciasEtnicas.find(
           pertenencia => pertenencia.id_pertenencia_etnica === this.ciudadano['id_pertenencia_etnica_ciudadano']
+        );
+
+        this.ciudadano['genero'] = this.generos.find(
+          genero => genero.id_genero === this.ciudadano['id_genero']
         );
 
         Swal.fire({
@@ -169,6 +178,19 @@ export class EditarCiudadanoComponent implements OnInit, AfterViewInit {
     this.apiService.get(PERTENENCIA_ETNICA.CONSULTAR_TODO).subscribe({
       next: (respuesta) => {
         this.pertenenciasEtnicas = respuesta;
+      },
+      error: (error) => {
+        console.error("Se produjo un error: " + error);
+      },
+    });
+  }
+
+
+
+  consultarTodosGeneros() {
+    this.apiService.get(GENERO.CONSULTAR_TODO).subscribe({
+      next: (respuesta) => {
+        this.generos = respuesta;
       },
       error: (error) => {
         console.error("Se produjo un error: " + error);

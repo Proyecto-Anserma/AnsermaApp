@@ -5,8 +5,8 @@ export class Solicitud {
   id_solicitud?: number;
   descripcion_solicitud: string;
   fecha_creacion_solicitud?: Date;
-  id_tipo_solicitud: number;
-  id_ubicacion_solicitud: number;
+  id_tipo_solicitud: number | null;
+  id_ubicacion_solicitud: number | null;
   id_ciudadano_solicitud: string;
   geolocalizacion: string;
   foto_solicitud?: string;
