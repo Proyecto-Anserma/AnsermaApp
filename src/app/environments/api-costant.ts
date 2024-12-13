@@ -40,3 +40,7 @@ export const PERTENENCIA_ETNICA = {
 export const GENERO = {
     CONSULTAR_TODO: PORT +  "/genero/obtener_todos/"
 }
+
+export const TOKEN = {
+    CONSULTAR_TODO: PORT +  "/token"
+}   
