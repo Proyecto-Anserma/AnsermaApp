@@ -1,0 +1,9 @@
+.btn-danger {
+  margin-top: auto;
+  transition: all 0.3s ease;
+}
+
+.btn-danger:hover {
+  transform: scale(0.98);
+  opacity: 0.9;
+}
