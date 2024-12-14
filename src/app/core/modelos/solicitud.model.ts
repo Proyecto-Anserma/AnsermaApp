@@ -1,5 +1,6 @@
 import { TipoSolicitud } from "./tipo_solicitud.model";
 import { Ubicacion } from "./ubicacion.model";
+import { EstadoSolicitud } from "./estado-solicitud.model";
 
 export class Solicitud {
   id_solicitud?: number;
@@ -13,6 +14,7 @@ export class Solicitud {
   
   tipo_solicitud?: TipoSolicitud;
   ubicacion?: Ubicacion;
+  estados_solicitud?: EstadoSolicitud[];
 
   constructor(
     descripcion_solicitud: string,
@@ -24,8 +26,8 @@ export class Solicitud {
     foto_solicitud?: string, 
     id_solicitud?: number,
     tipo_solicitud?: TipoSolicitud,
-    ubicacion?: Ubicacion
-
+    ubicacion?: Ubicacion,
+    estados_solicitud?: EstadoSolicitud[]
   ) {
     this.id_solicitud = id_solicitud;
     this.descripcion_solicitud = descripcion_solicitud;
@@ -37,9 +39,9 @@ export class Solicitud {
     this.geolocalizacion = geolocalizacion;
     this.tipo_solicitud = tipo_solicitud;
     this.ubicacion = ubicacion;
+    this.estados_solicitud = estados_solicitud;
   }
 }
-
 
 export class SolicitudFiltrar {
   descripcion_solicitud?: string;
