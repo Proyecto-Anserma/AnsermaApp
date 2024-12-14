@@ -43,4 +43,8 @@ export const GENERO = {
 
 export const TOKEN = {
     CONSULTAR_TODO: PORT +  "/token"
-}   
+}  
+
+export const ESTADO_SOLICITUD = {
+    CONSULTAR_ULTIMO_ESTADO: PORT +  "/estado_solicitudes/ultimo-estado-solicitud/"
+}

@@ -28,6 +28,11 @@ export const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
+    path: 'estado-solicitud',
+    loadChildren: () => import('./estado-solicitud/estado-solicitud.module.routes').then(m => m.ESTADO_SOLICITUD_RUTAS),
+    canActivate: [AuthGuard]
+  },
+  {
     path: '**',
     redirectTo: 'auth/login'
   }
