@@ -35,6 +35,7 @@
               <th scope="col">Cédula Ciudadano</th>
               <th scope="col">Fecha de Creación</th>
               <th scope="col">Tipo de Solicitud</th>
+              <th scope="col">Estado Actual</th>
               <th scope="col">Acciones</th>
             </tr>
           </thead>
@@ -44,6 +45,9 @@
               <td>{{ solicitud.id_ciudadano_solicitud }}</td>
               <td>{{ solicitud.fecha_creacion_solicitud | date: 'yyyy-MM-dd' }}</td>
               <td>{{ solicitud.tipo_solicitud?.descripcion_tipo_solicitud }}</td>
+              <td>
+                {{ getUltimoEstado(solicitud)?.estado?.descripcion_estado || 'Sin estado' }}
+              </td>
               <td class="d-flex justify-content-evenly">
                 <button class="btn btn-link p-0 text-reset" title="Ver detalles"
                         (click)="abrirModalDetalles(solicitud)">

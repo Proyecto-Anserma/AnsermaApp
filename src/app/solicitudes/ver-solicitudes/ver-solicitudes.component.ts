@@ -9,6 +9,7 @@ import { EditarSolicitudComponent } from '../editar-solicitud/editar-solicitud.c
 import { DetallesSolicitudComponent } from '../detalles-solicitud/detalles-solicitud.component';
 import { CrearSolicitudComponent } from '../crear-solicitud/crear-solicitud.component';
 import { EliminarSolicitudComponent } from '../eliminar-solicitud/eliminar-solicitud.component';
+import { EstadoSolicitud } from '../../core/modelos/estado-solicitud.model';
 
 @Component({
   selector: 'app-ver-solicitudes',
@@ -37,6 +38,8 @@ export class VerSolicitudesComponent implements OnInit {
       next: (respuesta: Solicitud[]) => {
         this.solicitudes = respuesta;
         this.loading = false;
+
+        console.log(this.solicitudes[0].estados);
       },
       error: (error) => {
         console.error('Error al cargar solicitudes: ', error);
@@ -142,5 +145,17 @@ export class VerSolicitudesComponent implements OnInit {
         console.log('Modal de eliminación cerrado');
       }
     );
+  }
+
+  getUltimoEstado(solicitud: Solicitud): EstadoSolicitud | undefined {
+    if (!solicitud.estados || solicitud.estados.length === 0) {
+      return undefined;
+    }
+
+    return solicitud.estados.reduce((ultimo, actual) => {
+      const fechaUltimo = new Date(ultimo.fecha_cambio_estado_solicitud);
+      const fechaActual = new Date(actual.fecha_cambio_estado_solicitud);
+      return fechaActual > fechaUltimo ? actual : ultimo;
+    });
   }
 }
