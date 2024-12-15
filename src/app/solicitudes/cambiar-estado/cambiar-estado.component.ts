@@ -6,6 +6,7 @@ import { Solicitud } from '../../core/modelos/solicitud.model';
 import { Estado } from '../../core/modelos/estado.model';
 import { EstadoSolicitud } from '../../core/modelos/estado-solicitud.model';
 import { ApiService } from '../../core/servicios/service';
+import { ESTADO, ESTADO_SOLICITUD } from '../../environments/api-costant';
 
 @Component({
   selector: 'app-cambiar-estado',
@@ -18,11 +19,9 @@ export class CambiarEstadoComponent implements OnInit {
   @Input() solicitud!: Solicitud;
   estados: Estado[] = [];
   nuevoEstado: EstadoSolicitud = {
-    id_estado_solicitud: 0,
-    fecha_cambio_estado_solicitud: new Date(),
-    observacion_solicitud: '',
     id_solicitud: 0,
-    id_estado: 0
+    id_estado: 0,
+    observacion_solicitud: ''
   };
 
   constructor(
@@ -35,7 +34,7 @@ export class CambiarEstadoComponent implements OnInit {
   }
 
   cargarEstados(): void {
-    this.apiService.get('/estados/').subscribe({
+    this.apiService.get(ESTADO.CONSULTAR_TODO).subscribe({
       next: (estados: Estado[]) => {
         this.estados = estados;
       },
@@ -46,8 +45,18 @@ export class CambiarEstadoComponent implements OnInit {
   }
 
   guardarEstado(): void {
-    this.nuevoEstado.id_solicitud = this.solicitud.id_solicitud!;
-    this.apiService.post('/estado_solicitudes/', this.nuevoEstado).subscribe({
+    if (this.nuevoEstado.id_estado === 0) {
+      console.error('Debe seleccionar un estado');
+      return;
+    }
+
+    const estadoParaEnviar = {
+      id_solicitud: this.solicitud.id_solicitud,
+      id_estado: this.nuevoEstado.id_estado,
+      observacion_solicitud: this.nuevoEstado.observacion_solicitud
+    };
+
+    this.apiService.post(ESTADO_SOLICITUD.CREAR_ESTADO, estadoParaEnviar).subscribe({
       next: (response) => {
         this.activeModal.close(response);
       },

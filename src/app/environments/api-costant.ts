@@ -46,5 +46,11 @@ export const TOKEN = {
 }  
 
 export const ESTADO_SOLICITUD = {
-    CONSULTAR_ULTIMO_ESTADO: PORT +  "/estado_solicitudes/ultimo-estado-solicitud/"
+    CONSULTAR_ULTIMO_ESTADO: PORT +  "/estado_solicitudes/ultimo-estado-solicitud/",
+    CREAR_ESTADO: PORT +  "/estado_solicitudes/crear_estado_solicitudes/"
 }
+
+export const ESTADO = {
+    CONSULTAR_TODO: PORT +  "/api/estados/"
+}
+

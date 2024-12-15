@@ -163,8 +163,14 @@ export class VerSolicitudesComponent implements OnInit, AfterViewInit {
     }
 
     return solicitud.estados.reduce((ultimo, actual) => {
-      const fechaUltimo = new Date(ultimo.fecha_cambio_estado_solicitud);
-      const fechaActual = new Date(actual.fecha_cambio_estado_solicitud);
+      const fechaUltimo = ultimo.fecha_cambio_estado_solicitud 
+        ? new Date(ultimo.fecha_cambio_estado_solicitud) 
+        : new Date(0);
+      
+      const fechaActual = actual.fecha_cambio_estado_solicitud 
+        ? new Date(actual.fecha_cambio_estado_solicitud) 
+        : new Date(0);
+
       return fechaActual > fechaUltimo ? actual : ultimo;
     });
   }

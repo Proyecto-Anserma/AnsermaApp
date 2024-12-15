@@ -2,8 +2,8 @@ import { Solicitud } from './solicitud.model';
 import { Estado } from './estado.model';
 
 export class EstadoSolicitud {
-    id_estado_solicitud: number;
-    fecha_cambio_estado_solicitud: Date;
+    id_estado_solicitud?: number;
+    fecha_cambio_estado_solicitud?: Date;
     observacion_solicitud: string;
     id_solicitud: number;
     id_estado: number;
