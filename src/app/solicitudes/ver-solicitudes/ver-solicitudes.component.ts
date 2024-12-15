@@ -1,24 +1,25 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { ApiService } from '../../core/servicios/service';
 import { SOLICITUD } from '../../environments/api-costant';
 import { Solicitud, SolicitudFiltrar } from '../../core/modelos/solicitud.model'; 
 import { FormsModule } from '@angular/forms'; 
 import { CommonModule } from '@angular/common';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { EditarSolicitudComponent } from '../editar-solicitud/editar-solicitud.component';
 import { DetallesSolicitudComponent } from '../detalles-solicitud/detalles-solicitud.component';
 import { CrearSolicitudComponent } from '../crear-solicitud/crear-solicitud.component';
 import { EliminarSolicitudComponent } from '../eliminar-solicitud/eliminar-solicitud.component';
 import { EstadoSolicitud } from '../../core/modelos/estado-solicitud.model';
+declare var bootstrap: any;
 
 @Component({
   selector: 'app-ver-solicitudes',
   standalone: true,
-  imports: [FormsModule, CommonModule],  
+  imports: [FormsModule, CommonModule, NgbTooltipModule],  
   templateUrl: './ver-solicitudes.component.html',
   styleUrls: ['./ver-solicitudes.component.css']
 })
-export class VerSolicitudesComponent implements OnInit {
+export class VerSolicitudesComponent implements OnInit, AfterViewInit {
   solicitudes: Solicitud[] = []; 
   descripcionFiltro: string = '';
   cedulaFiltro: string = '';
@@ -28,6 +29,14 @@ export class VerSolicitudesComponent implements OnInit {
 
   ngOnInit(): void {
     this.cargarSolicitudes();
+  }
+
+  ngAfterViewInit() {
+    // Inicializar todos los tooltips
+    const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    tooltipTriggerList.map(function (tooltipTriggerEl) {
+      return new bootstrap.Tooltip(tooltipTriggerEl);
+    });
   }
 
   cargarSolicitudes(): void {
