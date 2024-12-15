@@ -1,0 +1,17 @@
+.table-responsive {
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.form-label {
+  font-weight: 500;
+}
+
+.modal-body {
+  padding: 20px;
+}
+
+h5 {
+  margin-bottom: 15px;
+  color: #333;
+} 

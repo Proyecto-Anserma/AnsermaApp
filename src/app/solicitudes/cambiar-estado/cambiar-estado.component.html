@@ -1,0 +1,59 @@
+<div class="modal-header">
+  <h4 class="modal-title">Cambiar Estado de Solicitud</h4>
+  <button type="button" class="btn-close" aria-label="Close" (click)="cerrar()"></button>
+</div>
+
+<div class="modal-body">
+  <h5>Historial de Estados</h5>
+  <div class="table-responsive mb-4">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Fecha de Cambio</th>
+          <th>Estado</th>
+          <th>Observación</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let estadoSolicitud of solicitud.estados">
+          <td>{{ estadoSolicitud.fecha_cambio_estado_solicitud | date:'dd/MM/yyyy HH:mm' }}</td>
+          <td>{{ estadoSolicitud.estado?.descripcion_estado }}</td>
+          <td>{{ estadoSolicitud.observacion_solicitud }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h5>Nuevo Estado</h5>
+  <form #estadoForm="ngForm" (ngSubmit)="guardarEstado()">
+    <div class="mb-3">
+      <label for="estado" class="form-label">Estado</label>
+      <select class="form-select" id="estado" 
+              [(ngModel)]="nuevoEstado.id_estado" 
+              name="estado" 
+              required>
+        <option value="">Seleccione un estado</option>
+        <option *ngFor="let estado of estados" [value]="estado.id_estado">
+          {{ estado.descripcion_estado }}
+        </option>
+      </select>
+    </div>
+
+    <div class="mb-3">
+      <label for="fecha" class="form-label">Fecha de Cambio</label>
+      <input type="datetime-local" 
+             class="form-control" 
+             id="fecha" 
+             [(ngModel)]="nuevoEstado.fecha_cambio_estado_solicitud" 
+             name="fecha" 
+             required>
+    </div>
+  </form>
+</div>
+
+<div class="modal-footer">
+  <button type="button" class="btn btn-secondary" (click)="cerrar()">Cancelar</button>
+  <button type="button" class="btn btn-primary" (click)="guardarEstado()" [disabled]="!estadoForm.form.valid">
+    Guardar Estado
+  </button>
+</div> 

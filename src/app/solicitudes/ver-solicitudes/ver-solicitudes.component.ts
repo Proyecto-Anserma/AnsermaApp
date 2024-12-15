@@ -10,6 +10,7 @@ import { DetallesSolicitudComponent } from '../detalles-solicitud/detalles-solic
 import { CrearSolicitudComponent } from '../crear-solicitud/crear-solicitud.component';
 import { EliminarSolicitudComponent } from '../eliminar-solicitud/eliminar-solicitud.component';
 import { EstadoSolicitud } from '../../core/modelos/estado-solicitud.model';
+import { CambiarEstadoComponent } from '../cambiar-estado/cambiar-estado.component';
 declare var bootstrap: any;
 
 @Component({
@@ -166,5 +167,25 @@ export class VerSolicitudesComponent implements OnInit, AfterViewInit {
       const fechaActual = new Date(actual.fecha_cambio_estado_solicitud);
       return fechaActual > fechaUltimo ? actual : ultimo;
     });
+  }
+
+  abrirModalCambiarEstado(solicitud: Solicitud): void {
+    const modalRef = this.modalService.open(CambiarEstadoComponent);
+    modalRef.componentInstance.solicitud = { ...solicitud };
+
+    modalRef.result.then(
+      (nuevoEstado: EstadoSolicitud) => {
+        if (nuevoEstado) {
+          // Actualizar la solicitud en la lista con el nuevo estado
+          const solicitudActualizada = this.solicitudes.find(s => s.id_solicitud === solicitud.id_solicitud);
+          if (solicitudActualizada && solicitudActualizada.estados) {
+            solicitudActualizada.estados.push(nuevoEstado);
+          }
+        }
+      },
+      () => {
+        console.log('Modal de cambio de estado cerrado');
+      }
+    );
   }
 }
