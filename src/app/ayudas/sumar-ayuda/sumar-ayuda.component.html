@@ -46,7 +46,7 @@
       <div class="mb-3">
         <label class="form-label">Origen de Ayuda</label>
         <select class="form-select" [(ngModel)]="nuevaCantidad.id_origen_ayuda">
-          <option [ngValue]="null">Seleccione un origen</option>
+          <option [ngValue]=0>Seleccione un origen</option>
           <option *ngFor="let origen of origenesAyuda" 
                   [value]="origen.id_origen_ayuda">
             {{ origen.nombre_entidad_origen_ayuda }}
