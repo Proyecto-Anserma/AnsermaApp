@@ -11,6 +11,7 @@ export class Solicitud {
   id_ciudadano_solicitud: string;
   geolocalizacion: string;
   foto_solicitud?: string;
+  cantidad_solicitud?: number;
   
   tipo_solicitud?: TipoSolicitud;
   ubicacion?: Ubicacion;
@@ -27,7 +28,8 @@ export class Solicitud {
     id_solicitud?: number,
     tipo_solicitud?: TipoSolicitud,
     ubicacion?: Ubicacion,
-    estados?: EstadoSolicitud[]
+    estados?: EstadoSolicitud[],
+    cantidad_solicitud?: number
   ) {
     this.id_solicitud = id_solicitud;
     this.descripcion_solicitud = descripcion_solicitud;
@@ -40,6 +42,7 @@ export class Solicitud {
     this.tipo_solicitud = tipo_solicitud;
     this.ubicacion = ubicacion;
     this.estados = estados;
+    this.cantidad_solicitud = cantidad_solicitud;
   }
 }
 
