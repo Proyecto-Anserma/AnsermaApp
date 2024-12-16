@@ -61,7 +61,7 @@ export const ORIGEN_AYUDA = {
 }
 
 export const CANTIDAD_ORIGEN_AYUDA = {
-    CREAR_CANTIDAD_ORIGEN: PORT +  "/api/cantidad-origen-ayuda/crear-cantidad-origen-ayuda/",
+    CREAR_CANTIDAD_ORIGEN: PORT +  "/cantidades_origen_ayuda/crear_cantidades_origen_ayuda/",
 }   
 
 
