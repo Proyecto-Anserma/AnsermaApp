@@ -1,0 +1,83 @@
+<div class="reportes-container">
+  <div class="botones-tipo-reporte mb-3">
+    <button class="btn btn-primary" 
+            [class.active]="tipoReporteActual === 'solicitudes'"
+            (click)="cambiarTipoReporte('solicitudes')">
+      Solicitudes
+    </button>
+    <button class="btn btn-primary" 
+            [class.active]="tipoReporteActual === 'ciudadanos'"
+            (click)="cambiarTipoReporte('ciudadanos')">
+      Ciudadanos
+    </button>
+    <button class="btn btn-primary" 
+            [class.active]="tipoReporteActual === 'ayudas'"
+            (click)="cambiarTipoReporte('ayudas')">
+      Ayudas
+    </button>
+  </div>
+
+  <div class="reportes-header">
+    <h2 class="mb-3">{{ tituloReporte }}</h2>
+    
+    <!-- Contenido del Reporte de Solicitudes -->
+    <div *ngIf="mostrarReporteSolicitudes">
+      <div class="filtros-container">
+        <div class="row g-3">
+          <div class="col-md-3">
+            <label class="form-label">Fecha Inicio:</label>
+            <input type="date" class="form-control" [(ngModel)]="filtros.fechaInicio">
+          </div>
+          
+          <div class="col-md-3">
+            <label class="form-label">Fecha Fin:</label>
+            <input type="date" class="form-control" [(ngModel)]="filtros.fechaFin">
+          </div>
+          
+          <div class="col-md-3">
+            <label class="form-label">Estado:</label>
+            <select class="form-select" [(ngModel)]="filtros.estado">
+              <option [ngValue]="null">Todos</option>
+              <option *ngFor="let estado of estados" [ngValue]="estado.id" [hidden]="estado.id === ''">
+                {{estado.nombre}}
+              </option>
+            </select>
+          </div>
+          
+          <div class="col-md-3 d-flex align-items-end gap-2">
+            <button class="btn btn-primary flex-grow-1" (click)="aplicarFiltros()">
+              <i class="fas fa-filter me-2"></i>Aplicar Filtros
+            </button>
+            <button class="btn btn-secondary" (click)="limpiarFiltros()">
+              <i class="fas fa-broom me-2"></i>Limpiar
+            </button>
+          </div>
+        </div>
+      </div>
+      
+      <div class="grafico-container">
+        <canvas id="reporteChart" [hidden]="!hayDatos"></canvas>
+        <div *ngIf="!hayDatos" class="no-data-message">
+          <i class="fas fa-info-circle me-2"></i>
+          {{ mensajeNoData }}
+        </div>
+      </div>
+    </div>
+
+    <!-- Contenido del Reporte de Ciudadanos -->
+    <div *ngIf="mostrarReporteCiudadanos">
+      <div class="contenido-futuro">
+        <i class="fas fa-cog fa-spin me-2"></i>
+        Reporte de Ciudadanos en desarrollo
+      </div>
+    </div>
+
+    <!-- Contenido del Reporte de Ayudas -->
+    <div *ngIf="mostrarReporteAyudas">
+      <div class="contenido-futuro">
+        <i class="fas fa-cog fa-spin me-2"></i>
+        Reporte de Ayudas en desarrollo
+      </div>
+    </div>
+  </div>
+</div> 

@@ -29,9 +29,7 @@ export class VerEstadoSolicitudesComponent implements OnInit {
 
   cargarUltimosEstados(): void {
     this.loading = true;
-    const body = {
-        id_solicitud: 31
-    }
+    const body = {}
     this.apiService.post(ESTADO_SOLICITUD.CONSULTAR_ULTIMO_ESTADO, body).subscribe({
       next: (response) => {
         this.estadosSolicitud = response;
