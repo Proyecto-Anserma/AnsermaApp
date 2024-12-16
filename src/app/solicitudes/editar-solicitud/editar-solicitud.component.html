@@ -44,6 +44,17 @@
           <label class="form-label">Ciudadano</label>
           <input [(ngModel)]="solicitud['id_ciudadano_solicitud']" type="text" class="form-control" />
         </div>
+
+        <!-- Agregar después del campo de ciudadano -->
+        <div class="col-md-6 mb-4">
+          <label class="form-label">Cantidad solicitada</label>
+          <input 
+            type="number" 
+            [(ngModel)]="solicitud['cantidad_solicitud']" 
+            class="form-control" 
+            min="0"
+          />
+        </div>
       </div>
 
       <div class="row">
