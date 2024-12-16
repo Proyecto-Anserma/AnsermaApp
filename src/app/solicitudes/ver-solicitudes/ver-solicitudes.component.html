@@ -37,6 +37,7 @@
               <th scope="col">Tipo de Solicitud</th>
               <th scope="col">Cantidad</th>
               <th scope="col">Estado Actual</th>
+              <th scope="col" class="text-center">Cambiar Estado</th>
               <th scope="col">Acciones</th>
             </tr>
           </thead>
@@ -50,28 +51,34 @@
               <td>
                 {{ getUltimoEstado(solicitud)?.estado?.descripcion_estado || 'Sin estado' }}
               </td>
-              <td class="d-flex justify-content-evenly">
-                <button class="btn btn-link p-0 text-reset" 
-                        [ngbTooltip]="'Cambiar estado de la solicitud'"
-                        placement="top"
-                        (click)="abrirModalCambiarEstado(solicitud)">
-                  <i class="bi bi-arrow-repeat me-4"></i>
+              <td class="text-center">
+                <button *ngIf="getUltimoEstado(solicitud)?.estado?.id_estado === 1"
+                        class="btn btn-success btn-sm" 
+                        (click)="asignarAyuda(solicitud)">
+                  Asignar
                 </button>
-
+                <button 
+                    *ngIf="getUltimoEstado(solicitud)?.estado?.id_estado !== 1"
+                    class="btn btn-link p-0 text-reset" 
+                    [ngbTooltip]="'Cambiar estado'"
+                    placement="top"
+                    (click)="validarCambioEstado(solicitud)">
+                  <i class="bi bi-arrow-repeat"></i>
+                </button>
+              </td>
+              <td class="d-flex justify-content-evenly">
                 <button class="btn btn-link p-0 text-reset" 
                         [ngbTooltip]="'Ver detalles de la solicitud'"
                         placement="top"
                         (click)="abrirModalDetalles(solicitud)">
                   <i class="bi bi-eye-fill"></i>
                 </button>
-
                 <button class="btn btn-link p-0 text-reset" 
                         [ngbTooltip]="'Editar solicitud'"
                         placement="top"
                         (click)="abrirModalEditar(solicitud)">
                   <i class="bi bi-pencil-fill"></i>
                 </button>
-
                 <button class="btn btn-link p-0 text-reset" 
                         [ngbTooltip]="'Eliminar solicitud'"
                         placement="top"

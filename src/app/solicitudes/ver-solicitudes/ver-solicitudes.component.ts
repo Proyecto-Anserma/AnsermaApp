@@ -11,6 +11,7 @@ import { CrearSolicitudComponent } from '../crear-solicitud/crear-solicitud.comp
 import { EliminarSolicitudComponent } from '../eliminar-solicitud/eliminar-solicitud.component';
 import { EstadoSolicitud } from '../../core/modelos/estado-solicitud.model';
 import { CambiarEstadoComponent } from '../cambiar-estado/cambiar-estado.component';
+import Swal from 'sweetalert2';
 declare var bootstrap: any;
 
 @Component({
@@ -193,5 +194,40 @@ export class VerSolicitudesComponent implements OnInit, AfterViewInit {
         console.log('Modal de cambio de estado cerrado');
       }
     );
+  }
+
+  validarCambioEstado(solicitud: Solicitud): void {
+    // Verificar si la solicitud está en estado inicial (1) y aún no ha sido asignada
+    if (this.getUltimoEstado(solicitud)?.estado?.id_estado === 1) {
+      // Mostrar alerta
+      Swal.fire({
+        title: 'Atención',
+        text: 'Debes asignar la solicitud a la ayuda correspondiente para poder cambiar de estado',
+        icon: 'warning', // Cambia el icono a "warning"
+        confirmButtonText: 'Aceptar',
+        customClass: {
+          confirmButton: 'btn btn-warning', // Clase de estilo Bootstrap (opcional)
+        },
+        buttonsStyling: false, // Desactiva los estilos predeterminados de SweetAlert2
+      });
+      
+      return;
+    }
+    
+    // Si ya no está en estado inicial o ya fue asignada, proceder con el cambio de estado
+    this.abrirModalCambiarEstado(solicitud);
+  }
+
+  asignarAyuda(solicitud: Solicitud): void {
+    // Aquí irá la lógica para asignar la ayuda
+    // Por ahora solo mostraremos un mensaje
+    console.log('Asignando ayuda a la solicitud:', solicitud);
+    
+    // Aquí deberías abrir el modal de asignación
+    // const modalRef = this.modalService.open(AsignarAyudaComponent);
+    // modalRef.componentInstance.solicitud = solicitud;
+    
+    // Después de asignar exitosamente, podrías actualizar el estado
+    // this.cargarSolicitudes();
   }
 }
