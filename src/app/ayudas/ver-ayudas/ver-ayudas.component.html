@@ -53,6 +53,10 @@
                 </span>
               </td>
               <td class="d-flex justify-content-evenly">
+                <button class="btn btn-link p-0 text-reset" title="Agregar"
+                        (click)="sumarAyuda(ayuda)">
+                  <i class="bi bi-plus-circle-fill"></i>
+                </button>
                 <button class="btn btn-link p-0 text-reset" title="Editar" 
                         (click)="abrirModalEditar(ayuda)">
                   <i class="bi bi-pencil-fill"></i>
@@ -61,6 +65,7 @@
                         (click)="abrirModalEliminar(ayuda)">
                   <i class="bi bi-trash-fill"></i>
                 </button>
+                
               </td>              
             </tr>
           </tbody>

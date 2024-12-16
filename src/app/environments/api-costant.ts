@@ -55,3 +55,14 @@ export const ESTADO = {
     CONSULTAR_TODO: PORT +  "/api/estados/"
 }
 
+export const ORIGEN_AYUDA = {
+    CONSULTAR_TODO: PORT +  "/api/origenes-ayuda/",
+    CREAR_ORIGEN_AYUDA: PORT +  "/api/origenes-ayuda/crear-origen-ayuda/",
+}
+
+export const CANTIDAD_ORIGEN_AYUDA = {
+    CREAR_CANTIDAD_ORIGEN: PORT +  "/api/cantidad-origen-ayuda/crear-cantidad-origen-ayuda/",
+}   
+
+
+

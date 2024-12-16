@@ -1,21 +1,36 @@
 <div class="reportes-container">
-  <div class="botones-tipo-reporte mb-3">
-    <button class="btn btn-primary" 
-            [class.active]="tipoReporteActual === 'solicitudes'"
-            (click)="cambiarTipoReporte('solicitudes')">
-      Solicitudes
-    </button>
-    <button class="btn btn-primary" 
-            [class.active]="tipoReporteActual === 'ciudadanos'"
-            (click)="cambiarTipoReporte('ciudadanos')">
-      Ciudadanos
-    </button>
-    <button class="btn btn-primary" 
-            [class.active]="tipoReporteActual === 'ayudas'"
-            (click)="cambiarTipoReporte('ayudas')">
-      Ayudas
-    </button>
-  </div>
+  <!-- Menú de navegación mejorado -->
+  <nav class="nav-reportes mb-4">
+    <ul class="nav nav-tabs nav-fill">
+      <li class="nav-item">
+        <a class="nav-link" 
+           [class.active]="tipoReporteActual === 'solicitudes'"
+           (click)="cambiarTipoReporte('solicitudes')"
+           href="javascript:void(0)">
+           <i class="fas fa-file-alt me-2"></i>
+           Solicitudes
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" 
+           [class.active]="tipoReporteActual === 'ciudadanos'"
+           (click)="cambiarTipoReporte('ciudadanos')"
+           href="javascript:void(0)">
+           <i class="fas fa-users me-2"></i>
+           Ciudadanos
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" 
+           [class.active]="tipoReporteActual === 'ayudas'"
+           (click)="cambiarTipoReporte('ayudas')"
+           href="javascript:void(0)">
+           <i class="fas fa-hands-helping me-2"></i>
+           Ayudas
+        </a>
+      </li>
+    </ul>
+  </nav>
 
   <div class="reportes-header">
     <h2 class="mb-3">{{ tituloReporte }}</h2>

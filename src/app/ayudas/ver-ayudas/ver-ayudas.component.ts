@@ -8,6 +8,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { EditarAyudaComponent } from '../editar-ayuda/editar-ayuda.component';
 import { CrearAyudaComponent } from '../crear-ayuda/crear-ayuda.component';
 import { EliminarAyudaComponent } from '../eliminar-ayuda/eliminar-ayuda.component';
+import { SumarAyudaComponent } from '../sumar-ayuda/sumar-ayuda.component';
 
 @Component({
   selector: 'app-ver-ayudas',
@@ -174,6 +175,23 @@ export class VerAyudasComponent implements OnInit {
     const totalRecibidas = this.calcularTotalAyudasRecibidas(ayuda);
     const totalDadas = this.calcularTotalAyudasDadas(ayuda);
     return totalRecibidas - totalDadas;
+  }
+
+  sumarAyuda(ayuda: Ayuda): void {
+    const modalRef = this.modalService.open(SumarAyudaComponent, { size: 'lg' });
+    modalRef.componentInstance.ayuda = ayuda;
+
+    modalRef.result.then(
+      (resultado) => {
+        if (resultado) {
+          // Recargar los datos después de agregar
+          this.cargarAyudas();
+        }
+      },
+      () => {
+        console.log('Modal de suma de ayuda cerrado');
+      }
+    );
   }
 }
 

@@ -1,0 +1,67 @@
+<div class="modal-header">
+  <h5 class="modal-title">Sumar Ayuda - {{ ayuda.descripcion_solicitud }}</h5>
+  <button type="button" class="btn-close" aria-label="Close" (click)="cerrarModal()"></button>
+</div>
+
+<div class="modal-body">
+  <!-- Lista de cantidades existentes -->
+  <div class="mb-4">
+    <h6>Cantidades Registradas</h6>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Cantidad</th>
+          <th>Fecha Entrega</th>
+          <th>Origen</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let cantidad of ayuda.cantidades_origen_ayuda">
+          <td>{{ cantidad.cantidad_origen_ayuda }}</td>
+          <td>{{ cantidad.fecha_entrega_cantidad_origen_ayuda | date:'dd/MM/yyyy' }}</td>
+          <td>{{ cantidad.origen_ayuda?.nombre_entidad_origen_ayuda }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Formulario para nueva cantidad -->
+  <div class="card">
+    <div class="card-body">
+      <h6 class="card-title">Agregar Nueva Cantidad</h6>
+      
+      <div class="mb-3">
+        <label class="form-label">Cantidad</label>
+        <input type="number" class="form-control" 
+               [(ngModel)]="nuevaCantidad.cantidad_origen_ayuda" 
+               min="1">
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Fecha de Entrega</label>
+        <input type="date" class="form-control" 
+               [(ngModel)]="nuevaCantidad.fecha_entrega_cantidad_origen_ayuda">
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Origen de Ayuda</label>
+        <select class="form-select" [(ngModel)]="nuevaCantidad.id_origen_ayuda">
+          <option [ngValue]="null">Seleccione un origen</option>
+          <option *ngFor="let origen of origenesAyuda" 
+                  [value]="origen.id_origen_ayuda">
+            {{ origen.nombre_entidad_origen_ayuda }}
+          </option>
+        </select>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-footer">
+  <button type="button" class="btn btn-secondary" (click)="cerrarModal()">Cancelar</button>
+  <button type="button" class="btn btn-primary" 
+          [disabled]="!nuevaCantidad.cantidad_origen_ayuda || !nuevaCantidad.id_origen_ayuda"
+          (click)="guardar()">
+    Guardar
+  </button>
+</div> 
