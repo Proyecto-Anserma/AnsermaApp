@@ -45,6 +45,18 @@
     </div>
 
     <div class="mb-3">
+      <label for="cantidad" class="form-label">Cantidad solicitada</label>
+      <input 
+        id="cantidad" 
+        type="number" 
+        class="form-control" 
+        [(ngModel)]="solicitud.cantidad_solicitud" 
+        name="cantidad"
+        min="0"
+      />
+    </div>
+
+    <div class="mb-3">
       <label for="createMap" class="form-label">Selecciona una ubicación en el mapa:</label>
       <div id="createMap" class="map-container" style="height: 400px; width: 100%;"></div>
       <p class="text-muted mt-2">Coordenadas seleccionadas: {{ solicitud.geolocalizacion }}</p>

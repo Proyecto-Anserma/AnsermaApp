@@ -31,6 +31,9 @@
               <th scope="col">Descripción</th>
               <th scope="col">Fecha de Creación</th>
               <th scope="col">Observación</th>
+              <th scope="col">Total Ayudas</th>
+              <th scope="col">Ayudas Dadas</th>
+              <th scope="col">Ayudas Disponibles</th>
               <th scope="col">Acciones</th>
             </tr>
           </thead>
@@ -39,6 +42,16 @@
               <td>{{ ayuda.descripcion_solicitud }}</td>
               <td>{{ ayuda.fecha_creacion_ayuda | date: 'yyyy-MM-dd' }}</td>
               <td>{{ ayuda.observacion_ayuda }}</td>
+              <td>{{ calcularTotalAyudasRecibidas(ayuda) }}</td>
+              <td>{{ calcularTotalAyudasDadas(ayuda) }}</td>
+              <td>
+                <span [ngClass]="{
+                  'text-success': calcularAyudasDisponibles(ayuda) > 0,
+                  'text-danger': calcularAyudasDisponibles(ayuda) <= 0
+                }">
+                  {{ calcularAyudasDisponibles(ayuda) }}
+                </span>
+              </td>
               <td class="d-flex justify-content-evenly">
                 <button class="btn btn-link p-0 text-reset" title="Editar" 
                         (click)="abrirModalEditar(ayuda)">

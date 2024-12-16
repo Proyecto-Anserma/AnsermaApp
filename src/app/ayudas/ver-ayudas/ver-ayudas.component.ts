@@ -40,6 +40,7 @@ export class VerAyudasComponent implements OnInit {
       next: (respuesta: Ayuda[]) => {
         this.ayudas = respuesta;
         this.loading = false;
+        console.log(this.ayudas);
       },
       error: (error) => {
         console.error('Error al cargar ayudas:', error);
@@ -155,6 +156,24 @@ export class VerAyudasComponent implements OnInit {
         console.log('Modal de eliminación cerrado');
       }
     );
+  }
+
+  calcularTotalAyudasRecibidas(ayuda: Ayuda): number {
+    if (!ayuda.cantidades_origen_ayuda) return 0;
+    return ayuda.cantidades_origen_ayuda.reduce((total, item) => 
+      total + item.cantidad_origen_ayuda, 0);
+  }
+
+  calcularTotalAyudasDadas(ayuda: Ayuda): number {
+    if (!ayuda.solicitudes_ayuda) return 0;
+    return ayuda.solicitudes_ayuda.reduce((total, solicitud) => 
+      total + (solicitud.cantidad_solicitud_ayuda || 0), 0);
+  }
+
+  calcularAyudasDisponibles(ayuda: Ayuda): number {
+    const totalRecibidas = this.calcularTotalAyudasRecibidas(ayuda);
+    const totalDadas = this.calcularTotalAyudasDadas(ayuda);
+    return totalRecibidas - totalDadas;
   }
 }
 

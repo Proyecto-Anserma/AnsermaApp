@@ -35,6 +35,8 @@
               <th scope="col">Cédula Ciudadano</th>
               <th scope="col">Fecha de Creación</th>
               <th scope="col">Tipo de Solicitud</th>
+              <th scope="col">Cantidad</th>
+              <th scope="col">Estado Actual</th>
               <th scope="col">Acciones</th>
             </tr>
           </thead>
@@ -44,16 +46,35 @@
               <td>{{ solicitud.id_ciudadano_solicitud }}</td>
               <td>{{ solicitud.fecha_creacion_solicitud | date: 'yyyy-MM-dd' }}</td>
               <td>{{ solicitud.tipo_solicitud?.descripcion_tipo_solicitud }}</td>
+              <td>{{ solicitud.cantidad_solicitud || 0 }}</td>
+              <td>
+                {{ getUltimoEstado(solicitud)?.estado?.descripcion_estado || 'Sin estado' }}
+              </td>
               <td class="d-flex justify-content-evenly">
-                <button class="btn btn-link p-0 text-reset" title="Ver detalles"
+                <button class="btn btn-link p-0 text-reset" 
+                        [ngbTooltip]="'Cambiar estado de la solicitud'"
+                        placement="top"
+                        (click)="abrirModalCambiarEstado(solicitud)">
+                  <i class="bi bi-arrow-repeat me-4"></i>
+                </button>
+
+                <button class="btn btn-link p-0 text-reset" 
+                        [ngbTooltip]="'Ver detalles de la solicitud'"
+                        placement="top"
                         (click)="abrirModalDetalles(solicitud)">
                   <i class="bi bi-eye-fill"></i>
                 </button>
-                <button class="btn btn-link p-0 text-reset" title="Editar" 
+
+                <button class="btn btn-link p-0 text-reset" 
+                        [ngbTooltip]="'Editar solicitud'"
+                        placement="top"
                         (click)="abrirModalEditar(solicitud)">
                   <i class="bi bi-pencil-fill"></i>
                 </button>
-                <button class="btn btn-link p-0 text-reset" title="Eliminar"
+
+                <button class="btn btn-link p-0 text-reset" 
+                        [ngbTooltip]="'Eliminar solicitud'"
+                        placement="top"
                         (click)="abrirModalEliminar(solicitud)">
                   <i class="bi bi-trash-fill"></i>
                 </button>

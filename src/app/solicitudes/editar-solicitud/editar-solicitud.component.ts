@@ -106,6 +106,8 @@ export class EditarSolicitudComponent implements OnInit, AfterViewInit {
     const url = `${SOLICITUD.EDITAR_SOLICITUD}/${solicitudId}`;
 
     delete solicitudPeticion['tipo_solicitud'];
+    delete solicitudPeticion['estados'];
+
     
     this.apiService.put(url, solicitudPeticion).subscribe({
       next: (response) => {
