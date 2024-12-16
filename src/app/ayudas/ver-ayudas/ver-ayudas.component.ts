@@ -165,9 +165,9 @@ export class VerAyudasComponent implements OnInit {
   }
 
   calcularTotalAyudasDadas(ayuda: Ayuda): number {
-    if (!ayuda.solicitudes) return 0;
-    return ayuda.solicitudes.reduce((total, solicitud) => 
-      total + (solicitud.cantidad_solicitud || 0), 0);
+    if (!ayuda.solicitudes_ayuda) return 0;
+    return ayuda.solicitudes_ayuda.reduce((total, solicitud) => 
+      total + (solicitud.cantidad_solicitud_ayuda || 0), 0);
   }
 
   calcularAyudasDisponibles(ayuda: Ayuda): number {

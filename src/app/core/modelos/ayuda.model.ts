@@ -1,4 +1,5 @@
 import { CantidadOrigenAyuda } from "./cantidad-origen-ayuda.model";
+import { SolicitudAyuda } from "./solicitud-ayuda.model";
 import { Solicitud } from "./solicitud.model";
 
 export class Ayuda {
@@ -8,7 +9,7 @@ export class Ayuda {
     observacion_ayuda: string;
     foto_solicitud: string;
     cantidades_origen_ayuda?: CantidadOrigenAyuda[];
-    solicitudes?: Solicitud[];
+    solicitudes_ayuda?: SolicitudAyuda[];
 
     constructor(
         id_ayuda: number,
@@ -16,7 +17,7 @@ export class Ayuda {
         fecha_creacion_ayuda: Date,
         observacion_ayuda: string,
         foto_solicitud: string,
-        solicitudes?: Solicitud[],
+        solicitudes_ayuda?: SolicitudAyuda[],
         cantidades_origen_ayuda?: CantidadOrigenAyuda[]
 
     ) {
@@ -25,7 +26,7 @@ export class Ayuda {
         this.fecha_creacion_ayuda = fecha_creacion_ayuda;
         this.observacion_ayuda = observacion_ayuda;
         this.foto_solicitud = foto_solicitud;
-        this.solicitudes = solicitudes;
+        this.solicitudes_ayuda = solicitudes_ayuda;
         this.cantidades_origen_ayuda = cantidades_origen_ayuda;
     }
 }
