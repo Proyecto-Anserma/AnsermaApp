@@ -18,7 +18,8 @@ export const AYUDAS = {
     FILTRAR_AYUDAS: PORT + "/ayudas/filtrar-ayudas/",
     CREAR_AYUDA: PORT + "/ayudas/crear-ayuda",
     EDITAR_AYUDA: PORT + "/ayudas/editar-ayuda",
-    ELIMINAR_AYUDA: PORT + "/ayudas/eliminar-ayuda"
+    ELIMINAR_AYUDA: PORT + "/ayudas/eliminar-ayuda",
+    VER_TODAS_AYUDAS: PORT + "/ayudas/ayudas/"
 };  
 
 export const USUARIO = {
@@ -63,6 +64,10 @@ export const ORIGEN_AYUDA = {
 export const CANTIDAD_ORIGEN_AYUDA = {
     CREAR_CANTIDAD_ORIGEN: PORT +  "/cantidades_origen_ayuda/crear_cantidades_origen_ayuda/",
 }   
+
+export const SOLICITUD_AYUDA = {
+    
+}
 
 
 

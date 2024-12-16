@@ -1,0 +1,41 @@
+<div class="modal-header">
+  <h5 class="modal-title">Asignar Ayuda a Solicitud</h5>
+  <button type="button" class="btn-close" aria-label="Close" (click)="cerrarModal()"></button>
+</div>
+
+<div class="modal-body">
+  <!-- Descripción de la solicitud -->
+  <div class="alert alert-info mb-4">
+    <h6 class="alert-heading mb-2">Descripción de la Solicitud:</h6>
+    <p class="mb-0">{{ solicitud.descripcion_solicitud }}</p>
+  </div>
+
+  <!-- Formulario de asignación -->
+  <form #asignacionForm="ngForm">
+    <div class="mb-3">
+      <label for="ayuda" class="form-label">Ayuda a asignar</label>
+      <select 
+        class="form-select" 
+        id="ayuda"
+        name="ayuda"
+        [(ngModel)]="solicitudAyuda.id_ayuda"
+        required>
+        <option [value]="0" selected disabled>Seleccione ayuda</option>
+        <option *ngFor="let ayuda of ayudas" [value]="ayuda.id_ayuda">
+          {{ ayuda.descripcion_solicitud }}
+        </option>   
+      </select>
+    </div>
+  </form>
+</div>
+
+<div class="modal-footer">
+  <button type="button" class="btn btn-secondary" (click)="cerrarModal()">Cancelar</button>
+  <button 
+    type="button" 
+    class="btn btn-primary" 
+    (click)="guardarAsignacion()"
+    [disabled]="!asignacionForm.form.valid">
+    Guardar Asignación
+  </button>
+</div> 

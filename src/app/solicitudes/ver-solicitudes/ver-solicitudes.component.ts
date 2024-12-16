@@ -12,6 +12,7 @@ import { EliminarSolicitudComponent } from '../eliminar-solicitud/eliminar-solic
 import { EstadoSolicitud } from '../../core/modelos/estado-solicitud.model';
 import { CambiarEstadoComponent } from '../cambiar-estado/cambiar-estado.component';
 import Swal from 'sweetalert2';
+import { AsignarSolicitudAyudaComponent } from '../asignar-solicitud-ayuda/asignar-solicitud-ayuda.component';
 declare var bootstrap: any;
 
 @Component({
@@ -219,15 +220,19 @@ export class VerSolicitudesComponent implements OnInit, AfterViewInit {
   }
 
   asignarAyuda(solicitud: Solicitud): void {
-    // Aquí irá la lógica para asignar la ayuda
-    // Por ahora solo mostraremos un mensaje
-    console.log('Asignando ayuda a la solicitud:', solicitud);
-    
-    // Aquí deberías abrir el modal de asignación
-    // const modalRef = this.modalService.open(AsignarAyudaComponent);
-    // modalRef.componentInstance.solicitud = solicitud;
-    
-    // Después de asignar exitosamente, podrías actualizar el estado
-    // this.cargarSolicitudes();
+    const modalRef = this.modalService.open(AsignarSolicitudAyudaComponent);
+    modalRef.componentInstance.solicitud = solicitud;
+
+    modalRef.result.then(
+      (resultado) => {
+        if (resultado) {
+          // Aquí puedes manejar el resultado de la asignación
+          this.cargarSolicitudes(); // Recargar la lista de solicitudes
+        }
+      },
+      () => {
+        console.log('Modal cerrado sin asignación');
+      }
+    );
   }
 }
