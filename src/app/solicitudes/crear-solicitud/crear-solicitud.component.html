@@ -35,13 +35,17 @@
 
     <div class="mb-3">
       <label for="ciudadano" class="form-label">Ciudadano</label>
-      <input 
+      <select 
         id="ciudadano" 
-        type="text" 
         class="form-control" 
         [(ngModel)]="solicitud.id_ciudadano_solicitud" 
-        name="ciudadano" 
-      />
+        name="ciudadano"
+        required>
+        <option [value]="" disabled selected>Seleccione un ciudadano</option>
+        <option *ngFor="let ciudadano of ciudadanos" [value]="ciudadano.numero_identificacion_ciudadano">
+          {{ ciudadano.nombre_ciudadano }} - {{ ciudadano.numero_identificacion_ciudadano }}
+        </option>
+      </select>
     </div>
 
     <div class="mb-3">

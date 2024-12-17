@@ -5,10 +5,11 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import * as mapboxgl from 'mapbox-gl';
 import { environment } from '../../environments/environment';
-import { TIPO_SOLICITUD, UBICACION } from '../../environments/api-costant';
+import { TIPO_SOLICITUD, UBICACION, CIUDADANO } from '../../environments/api-costant';
 import { TipoSolicitud } from '../../core/modelos/tipo_solicitud.model';
 import { Ubicacion } from '../../core/modelos/ubicacion.model';
 import { ApiService } from '../../core/servicios/service';
+import { Ciudadano } from '../../core/modelos/ciudadano.model';
 
 @Component({
   selector: 'app-crear-solicitud',
@@ -33,6 +34,7 @@ export class CrearSolicitudComponent implements OnInit, AfterViewInit {
 
   tipoSolicitudes: TipoSolicitud[] = []
   ubicaciones: Ubicacion[] = []
+  ciudadanos: Ciudadano[] = [];
 
   constructor(
     public activeModal: NgbActiveModal, 
@@ -43,6 +45,7 @@ export class CrearSolicitudComponent implements OnInit, AfterViewInit {
     console.log(this.solicitud)
     this.consultarTodosTipoSolicitud();
     this.consultarTodosUbicacion();
+    this.consultarCiudadanos();
 
     
   }
@@ -145,6 +148,17 @@ export class CrearSolicitudComponent implements OnInit, AfterViewInit {
         // Manejar cualquier error que ocurra durante la solicitud
         console.error("Se produjo un error: " + error);
       },
+    });
+  }
+
+  consultarCiudadanos() {
+    this.apiService.post(CIUDADANO.CONSULTAR_CIUDADANOS, {}).subscribe({
+      next: (respuesta) => {
+        this.ciudadanos = respuesta;
+      },
+      error: (error) => {
+        console.error("Error al cargar ciudadanos: ", error);
+      }
     });
   }
 }
