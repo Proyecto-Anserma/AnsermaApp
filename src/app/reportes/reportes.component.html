@@ -122,7 +122,7 @@
         <div class="mapa-leyenda">
           <h6>Ubicaciones</h6>
           <div class="leyenda-items">
-            <div *ngFor="let ubicacion of ubicacionesUnicas" class="leyenda-item">
+            <div *ngFor="let ubicacion of obtenerUbicacionesFiltradas()" class="leyenda-item">
               <span class="marcador-color" [style.background-color]="obtenerColorUbicacion(ubicacion.id_ubicacion)"></span>
               <span class="ubicacion-nombre">{{ ubicacion.descripcion_ubicacion }}</span>
               <span class="ubicacion-cantidad">({{ contarSolicitudesPorUbicacion(ubicacion.id_ubicacion) }})</span>

@@ -475,4 +475,22 @@ export class ReportesComponent implements OnInit {
       }
     });
   }
+
+  obtenerUbicacionesFiltradas(): Ubicacion[] {
+    // Si no hay filtro de ubicación, mostrar todas las ubicaciones que tienen solicitudes filtradas
+    if (this.filtroMapa.ubicacionId === null) {
+      const ubicacionesConSolicitudes = new Map<number, Ubicacion>();
+      
+      this.solicitudesFiltradas.forEach(solicitud => {
+        if (solicitud.ubicacion) {
+          ubicacionesConSolicitudes.set(solicitud.ubicacion.id_ubicacion, solicitud.ubicacion);
+        }
+      });
+      
+      return Array.from(ubicacionesConSolicitudes.values());
+    }
+    
+    // Si hay filtro de ubicación, mostrar solo la ubicación seleccionada
+    return this.ubicacionesUnicas.filter(u => u.id_ubicacion === this.filtroMapa.ubicacionId);
+  }
 } 
