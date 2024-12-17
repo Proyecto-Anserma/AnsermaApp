@@ -81,6 +81,40 @@
 
     <!-- Contenido del Reporte de Ciudadanos -->
     <div *ngIf="mostrarReporteCiudadanos">
+      <!-- Filtros para el mapa -->
+      <div class="filtros-container mb-3">
+        <div class="row g-3">
+          <div class="col-md-4">
+            <label class="form-label">Filtrar por Ubicación:</label>
+            <select class="form-select" [(ngModel)]="filtroMapa.ubicacionId">
+              <option [ngValue]="null">Todas las ubicaciones</option>
+              <option *ngFor="let ubicacion of ubicacionesUnicas" [ngValue]="ubicacion.id_ubicacion">
+                {{ ubicacion.descripcion_ubicacion }}
+              </option>
+            </select>
+          </div>
+          
+          <div class="col-md-4">
+            <label class="form-label">Filtrar por Estado:</label>
+            <select class="form-select" [(ngModel)]="filtroMapa.estadoId">
+              <option [ngValue]="null">Todos los estados</option>
+              <option *ngFor="let estado of obtenerEstadosUnicos()" [ngValue]="estado.id_estado">
+                {{ estado.descripcion_estado }}
+              </option>
+            </select>
+          </div>
+          
+          <div class="col-md-4 d-flex align-items-end gap-2">
+            <button class="btn btn-primary flex-grow-1" (click)="aplicarFiltrosMapa()">
+              <i class="fas fa-filter me-2"></i>Aplicar Filtros
+            </button>
+            <button class="btn btn-secondary" (click)="limpiarFiltrosMapa()">
+              <i class="fas fa-broom me-2"></i>Limpiar
+            </button>
+          </div>
+        </div>
+      </div>
+
       <div class="mapa-container" style="height: 500px; position: relative;">
         <div id="mapaReportes" style="width: 100%; height: 100%;"></div>
         

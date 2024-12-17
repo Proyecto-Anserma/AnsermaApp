@@ -11,6 +11,8 @@ import * as mapboxgl from 'mapbox-gl';
 import { environment } from '../environments/environment';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import { Ubicacion } from '../core/modelos/ubicacion.model';
+import { Estado } from '../core/modelos/estado.model';
+import { EstadoSolicitud } from '../core/modelos/estado-solicitud.model';
 
 @Component({
   selector: 'app-reportes',
@@ -50,6 +52,13 @@ export class ReportesComponent implements OnInit {
   ubicacionesUnicas: Ubicacion[] = [];
   coloresUbicaciones: { [key: number]: string } = {};
 
+  filtroMapa = {
+    ubicacionId: null as number | null,
+    estadoId: null as number | null
+  };
+
+  solicitudesFiltradas: Solicitud[] = [];
+
   constructor(
     private reportesService: ReportesService,
     private apiService: ApiService,
@@ -58,6 +67,7 @@ export class ReportesComponent implements OnInit {
   ngOnInit(): void {
     this.cargarReporteSolicitudes();
     this.cargarSolicitudes();
+    this.solicitudesFiltradas = [...this.solicitudes];
   }
 
   cargarTodo(): void {
@@ -269,9 +279,11 @@ export class ReportesComponent implements OnInit {
       case 'ciudadanos':
         this.tituloReporte = 'Reporte de Solicitudes por Ubicación';
         this.mostrarReporteCiudadanos = true;
+        this.solicitudesFiltradas = [...this.solicitudes];
+        this.obtenerUbicacionesUnicas();
         setTimeout(() => {
           this.inicializarMapa();
-          this.agregarMarcadoresSolicitudes();
+          this.actualizarMarcadoresMapa();
         }, 100);
         break;
       case 'ayudas':
@@ -304,12 +316,13 @@ export class ReportesComponent implements OnInit {
     
     // Asignar colores únicos a cada ubicación
     this.ubicacionesUnicas.forEach((ubicacion, index) => {
-      this.coloresUbicaciones[ubicacion.id_ubicacion] = this.obtenerColorPorIndice(index);
+      if (!this.coloresUbicaciones[ubicacion.id_ubicacion]) {
+        this.coloresUbicaciones[ubicacion.id_ubicacion] = this.obtenerColorPorIndice(index);
+      }
     });
   }
 
   private obtenerColorPorIndice(index: number): string {
-    // Array de colores predefinidos
     const colores = [
       '#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FFEEAD',
       '#D4A5A5', '#9B59B6', '#3498DB', '#E67E22', '#2ECC71'
@@ -322,39 +335,86 @@ export class ReportesComponent implements OnInit {
   }
 
   contarSolicitudesPorUbicacion(idUbicacion: number): number {
-    return this.solicitudes.filter(s => s.ubicacion?.id_ubicacion === idUbicacion).length;
+    return this.solicitudesFiltradas.filter(s => s.ubicacion?.id_ubicacion === idUbicacion).length;
   }
 
-  private agregarMarcadoresSolicitudes(): void {
+  public obtenerEstadosUnicos(): Estado[] {
+    const estadosMap = new Map<number, Estado>();
+    
+    this.solicitudes.forEach(solicitud => {
+      if (solicitud.estados && solicitud.estados.length > 0) {
+        const estadoMasReciente = this.obtenerEstadoMasReciente(solicitud);
+        if (estadoMasReciente?.estado) {
+          estadosMap.set(estadoMasReciente.estado.id_estado, estadoMasReciente.estado);
+        }
+      }
+    });
+    
+    return Array.from(estadosMap.values());
+  }
+
+  private obtenerEstadoMasReciente(solicitud: Solicitud): EstadoSolicitud | null {
+    if (!solicitud.estados || solicitud.estados.length === 0) return null;
+    
+    return solicitud.estados.sort((a, b) => {
+      const fechaA = a.fecha_cambio_estado_solicitud ? new Date(a.fecha_cambio_estado_solicitud) : new Date(0);
+      const fechaB = b.fecha_cambio_estado_solicitud ? new Date(b.fecha_cambio_estado_solicitud) : new Date(0);
+      return fechaB.getTime() - fechaA.getTime();
+    })[0];
+  }
+
+  aplicarFiltrosMapa(): void {
+    console.log('Filtros actuales:', this.filtroMapa); // Para debugging
+
+    this.solicitudesFiltradas = this.solicitudes.filter(solicitud => {
+      let cumpleFiltros = true;
+
+      // Filtrar por ubicación
+      if (this.filtroMapa.ubicacionId !== null) {
+        const ubicacionCoincide = solicitud.ubicacion?.id_ubicacion === Number(this.filtroMapa.ubicacionId);
+        cumpleFiltros = cumpleFiltros && ubicacionCoincide;
+      }
+
+      // Filtrar por estado
+      if (this.filtroMapa.estadoId !== null) {
+        const estadoMasReciente = this.obtenerEstadoMasReciente(solicitud);
+        const estadoCoincide = estadoMasReciente?.estado?.id_estado === Number(this.filtroMapa.estadoId);
+        cumpleFiltros = cumpleFiltros && estadoCoincide;
+      }
+
+      return cumpleFiltros;
+    });
+
+    console.log('Solicitudes filtradas:', this.solicitudesFiltradas.length); // Para debugging
+    this.actualizarMarcadoresMapa();
+  }
+
+  limpiarFiltrosMapa(): void {
+    this.filtroMapa = {
+      ubicacionId: null,
+      estadoId: null
+    };
+    this.solicitudesFiltradas = [...this.solicitudes];
+    this.actualizarMarcadoresMapa();
+  }
+
+  private actualizarMarcadoresMapa(): void {
     // Limpiar marcadores existentes
     this.marcadores.forEach(marker => marker.remove());
     this.marcadores = [];
-    
-    // Obtener ubicaciones únicas y asignar colores
-    this.obtenerUbicacionesUnicas();
 
     const coordenadasValidas: [number, number][] = [];
 
-    this.solicitudes.forEach(solicitud => {
+    // Usar solicitudesFiltradas y asegurar que los colores se mantienen
+    this.solicitudesFiltradas.forEach(solicitud => {
       if (solicitud.geolocalizacion && solicitud.ubicacion) {
         const coordenadas = this.extraerCoordenadas(solicitud.geolocalizacion);
         if (coordenadas[0] !== 0 && coordenadas[1] !== 0) {
           coordenadasValidas.push(coordenadas);
-          
-          // Obtener el estado más reciente
-          let estadoActual = 'Sin estado';
-          if (solicitud.estados && solicitud.estados.length > 0) {
-            // Ordenar estados por fecha de cambio (más reciente primero)
-            const estadoMasReciente = solicitud.estados.sort((a, b) => {
-              const fechaA = a.fecha_cambio_estado_solicitud ? new Date(a.fecha_cambio_estado_solicitud) : new Date(0);
-              const fechaB = b.fecha_cambio_estado_solicitud ? new Date(b.fecha_cambio_estado_solicitud) : new Date(0);
-              return fechaB.getTime() - fechaA.getTime();
-            })[0];
-            
-            estadoActual = estadoMasReciente.estado?.descripcion_estado || 'Estado desconocido';
-          }
 
-          // Crear popup con información de la solicitud
+          const estadoMasReciente = this.obtenerEstadoMasReciente(solicitud);
+          const estadoActual = estadoMasReciente?.estado?.descripcion_estado || 'Sin estado';
+
           const popup = new mapboxgl.Popup({ offset: 25 })
             .setHTML(`
               <div style="min-width: 200px;">
@@ -365,7 +425,6 @@ export class ReportesComponent implements OnInit {
               </div>
             `);
 
-          // Crear marcador con el color correspondiente a la ubicación
           const el = document.createElement('div');
           el.className = 'marcador';
           el.style.backgroundColor = this.obtenerColorUbicacion(solicitud.ubicacion.id_ubicacion);
@@ -384,7 +443,6 @@ export class ReportesComponent implements OnInit {
       }
     });
 
-    // Ajustar el mapa a los marcadores
     if (coordenadasValidas.length > 0) {
       const bounds = new mapboxgl.LngLatBounds();
       coordenadasValidas.forEach(coord => bounds.extend(coord));
@@ -406,8 +464,11 @@ export class ReportesComponent implements OnInit {
     this.apiService.post(SOLICITUD.FILTRAR_SOLICITUDES, filtro).subscribe({
       next: (respuesta: Solicitud[]) => {
         this.solicitudes = respuesta;
-
-        console.log(this.solicitudes[0].estados);
+        this.solicitudesFiltradas = [...this.solicitudes];
+        this.obtenerUbicacionesUnicas();
+        if (this.mostrarReporteCiudadanos) {
+          this.actualizarMarcadoresMapa();
+        }
       },
       error: (error) => {
         console.error('Error al cargar solicitudes: ', error);
