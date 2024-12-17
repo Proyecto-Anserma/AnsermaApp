@@ -224,3 +224,58 @@
 .nav-reportes .nav-link:not(.active):hover {
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
+
+.mapa-container {
+  margin-top: 20px;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.mapa-leyenda {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: white;
+  padding: 10px;
+  border-radius: 4px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  max-width: 250px;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.mapa-leyenda h6 {
+  margin-bottom: 10px;
+  padding-bottom: 5px;
+  border-bottom: 1px solid #eee;
+}
+
+.leyenda-items {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.leyenda-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9rem;
+}
+
+.marcador-color {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.ubicacion-nombre {
+  flex-grow: 1;
+}
+
+.ubicacion-cantidad {
+  color: #666;
+  font-size: 0.8rem;
+}

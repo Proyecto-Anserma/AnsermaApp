@@ -3,8 +3,14 @@ import { Chart } from 'chart.js/auto';
 import { CommonModule } from '@angular/common';
 import { ReporteSolicitud } from '../core/interfaces/reporte-solicitud.interface';
 import { ReportesService } from '../core/servicios/reportes.service';
-import { ESTADO_SOLICITUD } from '../environments/api-costant';
+import { ESTADO_SOLICITUD, SOLICITUD } from '../environments/api-costant';
 import { FormsModule } from '@angular/forms';
+import { Solicitud, SolicitudFiltrar } from '../core/modelos/solicitud.model';
+import { ApiService } from '../core/servicios/service';
+import * as mapboxgl from 'mapbox-gl';
+import { environment } from '../environments/environment';
+import 'mapbox-gl/dist/mapbox-gl.css';
+import { Ubicacion } from '../core/modelos/ubicacion.model';
 
 @Component({
   selector: 'app-reportes',
@@ -38,11 +44,20 @@ export class ReportesComponent implements OnInit {
   mostrarReporteSolicitudes: boolean = true;
   mostrarReporteCiudadanos: boolean = false;
   mostrarReporteAyudas: boolean = false;
+  solicitudes: Solicitud[] = []; 
+  private mapa!: mapboxgl.Map;
+  private marcadores: mapboxgl.Marker[] = [];
+  ubicacionesUnicas: Ubicacion[] = [];
+  coloresUbicaciones: { [key: number]: string } = {};
 
-  constructor(private reportesService: ReportesService) {}
+  constructor(
+    private reportesService: ReportesService,
+    private apiService: ApiService,
+  ) {}
 
   ngOnInit(): void {
     this.cargarReporteSolicitudes();
+    this.cargarSolicitudes();
   }
 
   cargarTodo(): void {
@@ -252,13 +267,135 @@ export class ReportesComponent implements OnInit {
         this.cargarReporteSolicitudes();
         break;
       case 'ciudadanos':
-        this.tituloReporte = 'Reporte de Ciudadanos';
+        this.tituloReporte = 'Reporte de Solicitudes por Ubicación';
         this.mostrarReporteCiudadanos = true;
+        setTimeout(() => {
+          this.inicializarMapa();
+          this.agregarMarcadoresSolicitudes();
+        }, 100);
         break;
       case 'ayudas':
         this.tituloReporte = 'Reporte de Ayudas';
         this.mostrarReporteAyudas = true;
         break;
     }
+  }
+
+  private inicializarMapa(): void {
+    this.mapa = new mapboxgl.Map({
+      container: 'mapaReportes',
+      style: 'mapbox://styles/mapbox/satellite-streets-v12',
+      center: [-74.2973, 4.570868], // Coordenadas de Colombia
+      zoom: 5,
+      accessToken: environment.mapboxToken
+    });
+  }
+
+  private obtenerUbicacionesUnicas(): void {
+    const ubicacionesMap = new Map<number, Ubicacion>();
+    
+    this.solicitudes.forEach(solicitud => {
+      if (solicitud.ubicacion && !ubicacionesMap.has(solicitud.ubicacion.id_ubicacion)) {
+        ubicacionesMap.set(solicitud.ubicacion.id_ubicacion, solicitud.ubicacion);
+      }
+    });
+    
+    this.ubicacionesUnicas = Array.from(ubicacionesMap.values());
+    
+    // Asignar colores únicos a cada ubicación
+    this.ubicacionesUnicas.forEach((ubicacion, index) => {
+      this.coloresUbicaciones[ubicacion.id_ubicacion] = this.obtenerColorPorIndice(index);
+    });
+  }
+
+  private obtenerColorPorIndice(index: number): string {
+    // Array de colores predefinidos
+    const colores = [
+      '#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FFEEAD',
+      '#D4A5A5', '#9B59B6', '#3498DB', '#E67E22', '#2ECC71'
+    ];
+    return colores[index % colores.length];
+  }
+
+  obtenerColorUbicacion(idUbicacion: number): string {
+    return this.coloresUbicaciones[idUbicacion] || '#000000';
+  }
+
+  contarSolicitudesPorUbicacion(idUbicacion: number): number {
+    return this.solicitudes.filter(s => s.ubicacion?.id_ubicacion === idUbicacion).length;
+  }
+
+  private agregarMarcadoresSolicitudes(): void {
+    // Limpiar marcadores existentes
+    this.marcadores.forEach(marker => marker.remove());
+    this.marcadores = [];
+    
+    // Obtener ubicaciones únicas y asignar colores
+    this.obtenerUbicacionesUnicas();
+
+    const coordenadasValidas: [number, number][] = [];
+
+    this.solicitudes.forEach(solicitud => {
+      if (solicitud.geolocalizacion && solicitud.ubicacion) {
+        const coordenadas = this.extraerCoordenadas(solicitud.geolocalizacion);
+        if (coordenadas[0] !== 0 && coordenadas[1] !== 0) {
+          coordenadasValidas.push(coordenadas);
+          
+          // Crear popup con información de la solicitud
+          const popup = new mapboxgl.Popup({ offset: 25 })
+            .setHTML(`
+              <h6>Solicitud</h6>
+              <p>${solicitud.descripcion_solicitud}</p>
+              <p><strong>Ubicación:</strong> ${solicitud.ubicacion.descripcion_ubicacion}</p>
+            `);
+
+          // Crear marcador con el color correspondiente a la ubicación
+          const el = document.createElement('div');
+          el.className = 'marcador';
+          el.style.backgroundColor = this.obtenerColorUbicacion(solicitud.ubicacion.id_ubicacion);
+          el.style.width = '15px';
+          el.style.height = '15px';
+          el.style.borderRadius = '50%';
+          el.style.border = '2px solid white';
+
+          const marker = new mapboxgl.Marker(el)
+            .setLngLat(coordenadas)
+            .setPopup(popup)
+            .addTo(this.mapa);
+
+          this.marcadores.push(marker);
+        }
+      }
+    });
+
+    // Ajustar el mapa a los marcadores
+    if (coordenadasValidas.length > 0) {
+      const bounds = new mapboxgl.LngLatBounds();
+      coordenadasValidas.forEach(coord => bounds.extend(coord));
+      this.mapa.fitBounds(bounds, {
+        padding: 50,
+        maxZoom: 15
+      });
+    }
+  }
+
+  private extraerCoordenadas(geoString: string): [number, number] {
+    const match = geoString.match(/POINT\s?\(([-\d.]+)\s+([-\d.]+)\)/);
+    return match ? [parseFloat(match[1]), parseFloat(match[2])] : [0, 0];
+  }
+
+  cargarSolicitudes(): void {
+    const filtro = new SolicitudFiltrar('', ''); 
+
+    this.apiService.post(SOLICITUD.FILTRAR_SOLICITUDES, filtro).subscribe({
+      next: (respuesta: Solicitud[]) => {
+        this.solicitudes = respuesta;
+
+        console.log(this.solicitudes[0].estados);
+      },
+      error: (error) => {
+        console.error('Error al cargar solicitudes: ', error);
+      }
+    });
   }
 } 
