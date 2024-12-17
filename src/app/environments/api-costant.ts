@@ -66,6 +66,7 @@ export const CANTIDAD_ORIGEN_AYUDA = {
 }   
 
 export const SOLICITUD_AYUDA = {
+    CREAR_SOLICITUD_AYUDA: PORT +  "/solicitudes_ayuda/solicitudes-ayuda/",
     
 }
 

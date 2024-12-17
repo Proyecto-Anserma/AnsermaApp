@@ -7,6 +7,7 @@ import { SolicitudAyuda } from '../../core/modelos/solicitud-ayuda.model';
 import { Ayuda } from '../../core/modelos/ayuda.model';
 import { ApiService } from '../../core/servicios/service';
 import { AYUDAS } from '../../environments/api-costant';
+import { SOLICITUD_AYUDA } from '../../environments/api-costant';
 
 @Component({
   selector: 'app-asignar-solicitud-ayuda',
@@ -62,9 +63,21 @@ export class AsignarSolicitudAyudaComponent implements OnInit {
   }
 
   guardarAsignacion(): void {
-    // Aquí deberías hacer la llamada a tu API para guardar la asignación
-    // this.apiService.post('URL_DE_TU_API/solicitud-ayuda', this.solicitudAyuda).subscribe(...)
-    this.activeModal.close(this.solicitudAyuda);
+    // Crear objeto con solo los campos necesarios
+    const solicitudAyudaParaEnviar = {
+      cantidad_solicitud_ayuda: this.solicitudAyuda.cantidad_solicitud_ayuda,
+      id_solicitud: this.solicitudAyuda.id_solicitud,
+      id_ayuda: this.solicitudAyuda.id_ayuda
+    };
+
+    this.apiService.post(SOLICITUD_AYUDA.CREAR_SOLICITUD_AYUDA, solicitudAyudaParaEnviar).subscribe({
+      next: (response) => {
+        this.activeModal.close(response);
+      },
+      error: (error) => {
+        console.error('Error al guardar la asignación:', error);
+      }
+    });
   }
 
   cerrarModal(): void {
