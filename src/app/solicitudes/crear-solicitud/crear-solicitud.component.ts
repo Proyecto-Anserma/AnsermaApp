@@ -86,11 +86,8 @@ export class CrearSolicitudComponent implements OnInit, AfterViewInit {
   }
 
   guardar(): void {
-
-    this.solicitud.geolocalizacion ="SRID=4326;POINT (-75.58503817385566 6.23594400231994)";
     console.log(this.solicitud)
-  
-    // Cerrar el modal y enviar la solicitud directamente (no necesita formateo adicional)
+    // Cerrar el modal y enviar la solicitud directamente
     this.activeModal.close(this.solicitud);
   }
 
