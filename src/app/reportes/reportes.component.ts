@@ -58,6 +58,7 @@ export class ReportesComponent implements OnInit {
   };
 
   solicitudesFiltradas: Solicitud[] = [];
+  coloresCiudadanos: { [key: string]: string } = {};
 
   constructor(
     private reportesService: ReportesService,
@@ -287,8 +288,13 @@ export class ReportesComponent implements OnInit {
         }, 100);
         break;
       case 'ayudas':
-        this.tituloReporte = 'Reporte de Ayudas';
+        this.tituloReporte = 'Reporte de Solicitudes por Ciudadano';
         this.mostrarReporteAyudas = true;
+        this.solicitudesFiltradas = [...this.solicitudes];
+        setTimeout(() => {
+          this.inicializarMapa();
+          this.actualizarMarcadoresMapa();
+        }, 100);
         break;
     }
   }
@@ -364,28 +370,31 @@ export class ReportesComponent implements OnInit {
   }
 
   aplicarFiltrosMapa(): void {
-    console.log('Filtros actuales:', this.filtroMapa); // Para debugging
-
     this.solicitudesFiltradas = this.solicitudes.filter(solicitud => {
       let cumpleFiltros = true;
 
-      // Filtrar por ubicación
-      if (this.filtroMapa.ubicacionId !== null) {
-        const ubicacionCoincide = solicitud.ubicacion?.id_ubicacion === Number(this.filtroMapa.ubicacionId);
-        cumpleFiltros = cumpleFiltros && ubicacionCoincide;
+      if (this.mostrarReporteAyudas) {
+        // Filtrar por ciudadano
+        if (this.filtroMapa.ubicacionId !== null) {
+          cumpleFiltros = cumpleFiltros && solicitud.id_ciudadano_solicitud === this.filtroMapa.ubicacionId.toString();
+        }
+      } else {
+        // Filtrar por ubicación (código existente)
+        if (this.filtroMapa.ubicacionId !== null) {
+          cumpleFiltros = cumpleFiltros && solicitud.ubicacion?.id_ubicacion === this.filtroMapa.ubicacionId;
+        }
       }
 
-      // Filtrar por estado
+      // Filtrar por estado (se mantiene igual)
       if (this.filtroMapa.estadoId !== null) {
         const estadoMasReciente = this.obtenerEstadoMasReciente(solicitud);
-        const estadoCoincide = estadoMasReciente?.estado?.id_estado === Number(this.filtroMapa.estadoId);
+        const estadoCoincide = estadoMasReciente?.estado?.id_estado === this.filtroMapa.estadoId;
         cumpleFiltros = cumpleFiltros && estadoCoincide;
       }
 
       return cumpleFiltros;
     });
 
-    console.log('Solicitudes filtradas:', this.solicitudesFiltradas.length); // Para debugging
     this.actualizarMarcadoresMapa();
   }
 
@@ -492,5 +501,28 @@ export class ReportesComponent implements OnInit {
     
     // Si hay filtro de ubicación, mostrar solo la ubicación seleccionada
     return this.ubicacionesUnicas.filter(u => u.id_ubicacion === this.filtroMapa.ubicacionId);
+  }
+
+  obtenerCiudadanosUnicos(): string[] {
+    return [...new Set(this.solicitudes.map(s => s.id_ciudadano_solicitud))];
+  }
+
+  obtenerCiudadanosFiltrados(): string[] {
+    if (this.filtroMapa.ubicacionId === null) {
+      return [...new Set(this.solicitudesFiltradas.map(s => s.id_ciudadano_solicitud))];
+    }
+    return [this.filtroMapa.ubicacionId.toString()];
+  }
+
+  obtenerColorCiudadano(idCiudadano: string): string {
+    if (!this.coloresCiudadanos[idCiudadano]) {
+      const index = this.obtenerCiudadanosUnicos().indexOf(idCiudadano);
+      this.coloresCiudadanos[idCiudadano] = this.obtenerColorPorIndice(index);
+    }
+    return this.coloresCiudadanos[idCiudadano];
+  }
+
+  contarSolicitudesPorCiudadano(idCiudadano: string): number {
+    return this.solicitudesFiltradas.filter(s => s.id_ciudadano_solicitud === idCiudadano).length;
   }
 } 
