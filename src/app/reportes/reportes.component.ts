@@ -341,12 +341,28 @@ export class ReportesComponent implements OnInit {
         if (coordenadas[0] !== 0 && coordenadas[1] !== 0) {
           coordenadasValidas.push(coordenadas);
           
+          // Obtener el estado más reciente
+          let estadoActual = 'Sin estado';
+          if (solicitud.estados && solicitud.estados.length > 0) {
+            // Ordenar estados por fecha de cambio (más reciente primero)
+            const estadoMasReciente = solicitud.estados.sort((a, b) => {
+              const fechaA = a.fecha_cambio_estado_solicitud ? new Date(a.fecha_cambio_estado_solicitud) : new Date(0);
+              const fechaB = b.fecha_cambio_estado_solicitud ? new Date(b.fecha_cambio_estado_solicitud) : new Date(0);
+              return fechaB.getTime() - fechaA.getTime();
+            })[0];
+            
+            estadoActual = estadoMasReciente.estado?.descripcion_estado || 'Estado desconocido';
+          }
+
           // Crear popup con información de la solicitud
           const popup = new mapboxgl.Popup({ offset: 25 })
             .setHTML(`
-              <h6>Solicitud</h6>
-              <p>${solicitud.descripcion_solicitud}</p>
-              <p><strong>Ubicación:</strong> ${solicitud.ubicacion.descripcion_ubicacion}</p>
+              <div style="min-width: 200px;">
+                <h6 style="margin-bottom: 8px; border-bottom: 1px solid #eee; padding-bottom: 5px;">Solicitud</h6>
+                <p style="margin-bottom: 5px;"><strong>Descripción:</strong><br>${solicitud.descripcion_solicitud}</p>
+                <p style="margin-bottom: 5px;"><strong>Ubicación:</strong><br>${solicitud.ubicacion.descripcion_ubicacion}</p>
+                <p style="margin-bottom: 0;"><strong>Estado actual:</strong><br>${estadoActual}</p>
+              </div>
             `);
 
           // Crear marcador con el color correspondiente a la ubicación
